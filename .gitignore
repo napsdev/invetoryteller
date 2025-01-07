@@ -1,0 +1,33 @@
+# Sistema
+*.DS_Store
+Thumbs.db
+
+# Entornos
+.env
+
+# Dependencias de Composer
+/vendor/
+
+# Caché y logs
+*.log
+*.cache
+*.bak
+*.tmp
+
+# Configuración del IDE
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Archivos del sistema operativo
+.DS_Store
+desktop.ini
+
+# Archivos de prueba y depuración
+.phpunit.result.cache
+phpunit.xml
+phpunit.xml.dist
+
+# Subidas de usuario (si aplican)
+uploads/
