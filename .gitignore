@@ -31,3 +31,5 @@ phpunit.xml.dist
 
 # Subidas de usuario (si aplican)
 uploads/
+/composer.phar
+/composer.lock
