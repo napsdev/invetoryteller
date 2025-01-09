@@ -41,8 +41,8 @@ direccion TEXT
 -- Create the payment methods table
 CREATE TABLE IF NOT EXISTS paymentmethods (
 id INT AUTO_INCREMENT PRIMARY KEY,
-nombre VARCHAR(50) NOT NULL,
-descripcion TEXT,
+name VARCHAR(50) NOT NULL,
+description TEXT,
 value_added int NOT NULL DEFAULT 0,
 percentage DECIMAL(5, 2) NOT NULL DEFAULT 0.00
 );
