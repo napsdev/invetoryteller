@@ -38,6 +38,15 @@ telefono VARCHAR(20),
 direccion TEXT
 );
 
+-- Create the payment methods table
+CREATE TABLE IF NOT EXISTS paymentmethods (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(50) NOT NULL,
+descripcion TEXT,
+value_added int NOT NULL DEFAULT 0,
+percentage DECIMAL(5, 2) NOT NULL DEFAULT 0.00
+);
+
 -- Create the invoices table
 CREATE TABLE IF NOT EXISTS invoices (
 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,8 +55,11 @@ productos JSON NOT NULL,
 total INT NOT NULL,
 ganancia INT NOT NULL,
 fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (customer_id) REFERENCES customers(id)
+paymentmethods_id INT DEFAULT NULL,
+FOREIGN KEY (customer_id) REFERENCES customers(id),
+FOREIGN KEY (paymentmethods_id) REFERENCES paymentmethods(id)
 );
+
 
 -- Create the expenses table
 CREATE TABLE IF NOT EXISTS expenses (
