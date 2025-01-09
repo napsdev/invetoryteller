@@ -15,8 +15,8 @@ class PaymentMethodsController
         $value_added = $_POST['value_added'] ?? null;
         $percentage = $_POST['percentage'] ?? null;
 
-        $userModel = new PaymentMethodsModel();
-        $message = $userModel->create($name,$description,$value_added,$percentage);
+        $PaymentMethodsModel = new PaymentMethodsModel();
+        $message = $PaymentMethodsModel->create($name,$description,$value_added,$percentage);
 
         header('Location: '.$_ENV['BASE_URL_PATH'].'/pagos?message='.urlencode($message));
 
