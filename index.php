@@ -103,8 +103,8 @@ $router->addRoute('GET', '/proveedores', function () {
 
 //Create or update user with environment variables
 $router->addRoute('GET', '/syncuser', function () {
-    //$controller = new LoginController();
-    //$controller->syncUserFromEnv();
+    $controller = new LoginController();
+    $controller->syncUserFromEnv();
 });
 
 

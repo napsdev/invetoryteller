@@ -2,6 +2,7 @@
 <html lang="es">
 <?php include 'header.php'; ?>
 <body class="bg-light">
+<div class="container">
 <?php include 'navbar.php'; ?>
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
@@ -25,5 +26,6 @@
     </div>
 </div>
 <?php include 'footer.php'; ?>
+</div>
 </body>
 </html>
