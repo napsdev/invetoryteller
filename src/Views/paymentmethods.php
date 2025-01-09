@@ -2,27 +2,48 @@
 <html lang="es">
 <?php include 'header.php'; ?>
 <body class="bg-light">
+<div class="container">
 <?php include 'navbar.php'; ?>
-<div class="d-flex justify-content-center align-items-center vh-100">
+<?php if (!empty($_GET['message'])): ?>
+    <div class="alert alert-warning alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
+        <?= $_GET['message'] ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
+<div class="d-flex justify-content-center align-items-center mt-5">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Registrar formas de pago</h3>
-        <form action="#" method="post">
+        <form action="<?= $_ENV['BASE_URL_PATH']?>pagos/create" method="post">
+
             <div class="form-group">
-                <label for="ejemplo1">EJEMPLO 1</label>
-                <input type="email" class="form-control" id="ejemplo1" aria-describedby="emailHelp">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <label for="name">Nombre del método de pago</label>
+                <input type="text" class="form-control" id="name" name="name" required>
             </div>
+
+
             <div class="form-group">
-                <label for="ejemplo2">EJEMPLO 2</label>
-                <input type="password" class="form-control" id="ejemplo2">
+                <label for="description">Descripción</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
             </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="ejemplo3">
-                <label class="form-check-label" for="ejemplo3">EJEMPLO 3</label>
+
+
+            <div class="form-group">
+                <label for="value_added">Valor agregado</label>
+                <input type="number" class="form-control" id="value_added" name="value_added" value="0" required min="0">
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+
+
+            <div class="form-group">
+                <label for="percentage">Porcentaje</label>
+                <input type="number" class="form-control" id="percentage" name="percentage" value="0.00" required step="0.01" min="0" max="100">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
         </form>
     </div>
+</div>
 </div>
 <?php include 'footer.php'; ?>
 </body>

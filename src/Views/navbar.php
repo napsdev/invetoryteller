@@ -5,14 +5,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>salidas">SALIDAS</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>repsalidas">REPORTES</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>pagos">FORMAS DE PAGO</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>productos">PRODUCTOS</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>entradas">ENTRADAS</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>clientes">CLIENTES</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>gastos">GASTOS</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo $_ENV['BASE_URL_PATH'].'/'?>proveedores">PROVEEDORES</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>salidas">SALIDAS</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>repsalidas">REPORTES</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>pagos">FORMAS DE PAGO</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>productos">PRODUCTOS</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>entradas">ENTRADAS</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>clientes">CLIENTES</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>gastos">GASTOS</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>proveedores">PROVEEDORES</a></li>
             <li class="nav-item"><a class="nav-link text-danger" href="<?= $_ENV['BASE_URL_PATH'] ?>/logout">CERRAR SESIÓN</a></li>
         </ul>
     </div>
