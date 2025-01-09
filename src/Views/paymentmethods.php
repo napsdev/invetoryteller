@@ -4,14 +4,16 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-        <?php if (!empty($_GET['message'])): ?>
-            <div class="alert alert-warning alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
-                <?= $_GET['message'] ?>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        <?php endif; ?>
+<?php if (!empty($_GET['message'])): ?>
+    <div class="alert alert-warning alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
+        <?= $_GET['message'] ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
+
+
             <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
                 <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
                     <h3 class="text-center mb-4">Registrar formas de pago</h3>
@@ -44,38 +46,41 @@
                     </form>
                 </div>
             </div>
-        <?php if (!empty($table)): ?>
-        <div class="mb-3">
-                <table id="paymentsmethods" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Valor añadido</th>
-                        <th>Porcentaje</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($table as $row): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($row['name']) ?></td>
-                            <td><?= htmlspecialchars($row['description']) ?></td>
-                            <td><?= htmlspecialchars($row['value_added']) ?></td>
-                            <td><?= htmlspecialchars($row['percentage']) ?></td>
-                            <td>
-                                <form class="mb-1" action="<?= $_ENV['BASE_URL_PATH'].'/pagos/delete' ?>" method="POST">
-                                    <input type="hidden" name="id" value="<?=$row['id']?>">
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                                </form>
-                                <button type="button" class="btn btn-success" onclick="editPaymentMethod(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-        </div>
-        <?php endif; ?>
+
+
+<?php if (!empty($table)): ?>
+<div class="mb-3">
+        <table id="paymentsmethods" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Valor añadido</th>
+                <th>Porcentaje</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($table as $row): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['name']) ?></td>
+                    <td><?= htmlspecialchars($row['description']) ?></td>
+                    <td><?= htmlspecialchars($row['value_added']) ?></td>
+                    <td><?= htmlspecialchars($row['percentage']) ?></td>
+                    <td>
+                        <form class="mb-1" action="<?= $_ENV['BASE_URL_PATH'].'/pagos/delete' ?>" method="POST">
+                            <input type="hidden" name="id" value="<?=$row['id']?>">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                        <button type="button" class="btn btn-success" onclick="editPaymentMethod(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+</div>
+<?php endif; ?>
+
 </div>
 <?php include 'footer.php'; ?>
 <script>

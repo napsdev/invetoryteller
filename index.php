@@ -75,6 +75,11 @@ $router->addRoute('GET', '/productos', function () {
     $controller->index();
 });
 
+$router->addRoute('POST', '/productos/create', function () {
+    $controller = new ProductsController();
+    $controller->create();
+});
+
 //PRODUCT ADD STOCK
 $router->addRoute('GET', '/entradas', function () {
     $controller = new ProductEntriesController();
