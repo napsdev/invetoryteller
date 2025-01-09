@@ -6,7 +6,27 @@ class PaymentMethodsController
 {
     public function index()
     {
+        $PaymentMethodsModel = new PaymentMethodsModel();
+        $table = $PaymentMethodsModel->list();
         require_once __DIR__ . '/../Views/paymentmethods.php';
+    }
+    public function update()
+    {
+        $id = $_POST['id'] ?? null;
+        $name = $_POST['name'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $value_added = $_POST['value_added'] ?? 0;
+        $percentage = $_POST['percentage'] ?? 0;
+
+        if ($id) {
+            $PaymentMethodsModel = new PaymentMethodsModel();
+            $message = $PaymentMethodsModel->update($id, $name, $description, $value_added, $percentage);
+
+        } else {
+            $message = 'ID no proporcionado.';
+        }
+
+        header('Location: ' . $_ENV['BASE_URL_PATH'] . '/pagos?message=' . urlencode($message));
     }
     public function create()
     {
@@ -19,7 +39,15 @@ class PaymentMethodsController
         $message = $PaymentMethodsModel->create($name,$description,$value_added,$percentage);
 
         header('Location: '.$_ENV['BASE_URL_PATH'].'/pagos?message='.urlencode($message));
+    }
 
+    public function delete()
+    {
+        $id = $_POST['id'] ?? null;
+        $PaymentMethodsModel = new PaymentMethodsModel();
+        $message = $PaymentMethodsModel->delete($id);
+
+        header('Location: '.$_ENV['BASE_URL_PATH'].'/pagos?message='.urlencode($message));
     }
 
 }

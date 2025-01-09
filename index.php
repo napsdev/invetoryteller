@@ -59,6 +59,16 @@ $router->addRoute('POST', '/pagos/create', function () {
     $controller->create();
 });
 
+$router->addRoute('POST', '/pagos/delete', function () {
+    $controller = new PaymentMethodsController();
+    $controller->delete();
+});
+
+$router->addRoute('POST', '/pagos/update', function () {
+    $controller = new PaymentMethodsController();
+    $controller->update();
+});
+
 //PRODUCTS
 $router->addRoute('GET', '/productos', function () {
     $controller = new ProductsController();

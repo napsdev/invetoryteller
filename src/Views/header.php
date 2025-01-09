@@ -13,4 +13,6 @@ if (!isset($_SESSION['user_id'])) {
     <title>CORDOBA ADMIN</title>
     <!-- Bootstrap CSS -->
     <link href="../../public/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Datatables CSS -->
+    <link href="../../public/css/dataTables.bootstrap4.css" rel="stylesheet">
 </head>
