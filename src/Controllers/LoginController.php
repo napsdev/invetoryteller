@@ -23,12 +23,12 @@ class LoginController
                         $_SESSION['user_id'] = $userAUTH['id'];
                         $_SESSION['username'] = $userAUTH['username'];
 
-                        header('Location: '.$_ENV['BASE_URL_PATH'].'/dashboard');
+                        header('Location: '.$_ENV['BASE_URL_PATH'].'/salidas');
                         exit;
                     } else {
                         $error = 'Usuario o contraseña incorrectos.';
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $error = 'Hubo un problema al procesar tu solicitud.';
                     error_log($e->getMessage());
                 }

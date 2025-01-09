@@ -4,6 +4,13 @@ use Dotenv\Dotenv;
 use App\Router;
 use App\Controllers\LoginController;
 use App\Controllers\DashboardController;
+use App\Controllers\InvoicesController;
+use App\Controllers\PaymentMethodsController;
+use App\Controllers\ProductsController;
+use App\Controllers\ProductEntriesController;
+use App\Controllers\CustomerController;
+use App\Controllers\ExpensesController;
+use App\Controllers\SuppliersController;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -13,6 +20,7 @@ $router->addRoute('GET', '/', function () {
     header('Location: '.$_ENV['BASE_URL_PATH'].'/login');
 });
 
+//LOGIN
 $router->addRoute('GET', '/login', function () {
     $controller = new LoginController();
     $controller->login();
@@ -28,14 +36,60 @@ $router->addRoute('GET', '/logout', function () {
     $controller->logout();
 });
 
-$router->addRoute('GET', '/dashboard', function () {
+//MAIN
+$router->addRoute('GET', '/salidas', function () {
     $controller = new DashboardController();
     $controller->index();
 });
 
+//BUSINESS INFORMATION
+$router->addRoute('GET', '/repsalidas', function () {
+    $controller = new InvoicesController();
+    $controller->index();
+});
+
+//PAYMENT METHODS
+$router->addRoute('GET', '/pagos', function () {
+    $controller = new PaymentMethodsController();
+    $controller->index();
+});
+
+//PRODUCTS
+$router->addRoute('GET', '/productos', function () {
+    $controller = new ProductsController();
+    $controller->index();
+});
+
+//PRODUCT ADD STOCK
+$router->addRoute('GET', '/entradas', function () {
+    $controller = new ProductEntriesController();
+    $controller->index();
+});
+
+//CUSTOMERS
+$router->addRoute('GET', '/clientes', function () {
+    $controller = new CustomerController();
+    $controller->index();
+});
+
+//EXPENSES
+$router->addRoute('GET', '/gastos', function () {
+    $controller = new ExpensesController();
+    $controller->index();
+});
+
+//SUPPLIERS
+$router->addRoute('GET', '/proveedores', function () {
+    $controller = new SuppliersController();
+    $controller->index();
+});
+
+
+
+//Create or update user with environment variables
 $router->addRoute('GET', '/syncuser', function () {
-    $controller = new LoginController();
-    $controller->syncUserFromEnv();
+    //$controller = new LoginController();
+    //$controller->syncUserFromEnv();
 });
 
 

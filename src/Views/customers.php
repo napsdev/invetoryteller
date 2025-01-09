@@ -5,7 +5,7 @@
 <?php include 'navbar.php'; ?>
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-        <h3 class="text-center mb-4">Registrar salidas</h3>
+        <h3 class="text-center mb-4">Registrar cliente</h3>
         <form action="#" method="post">
             <div class="form-group">
                 <label for="ejemplo1">EJEMPLO 1</label>
@@ -27,5 +27,3 @@
 <?php include 'footer.php'; ?>
 </body>
 </html>
-
-

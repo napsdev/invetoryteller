@@ -3,28 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="../../public/css/styles.css">
+    <title>CORDOBA ADMIN</title>
+    <!-- Bootstrap CSS -->
+    <link href="../../public/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="login-form">
-    <h2>Iniciar sesión</h2>
-    <?php if (!empty($error)): ?>
-        <p class="error"><?= $error ?></p>
-    <?php endif; ?>
-    <form action="" method="POST">
-        <div>
-            <label for="username">Usuario</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div>
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <div>
-            <button type="submit">Iniciar sesión</button>
-        </div>
-    </form>
+<body class="bg-light">
+
+<?php if (!empty($error)): ?>
+    <div class="alert alert-warning alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
+        <?= $error ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
+        <h3 class="text-center mb-4">Iniciar sesión</h3>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="username">USUARIO</label>
+                <input type="text" class="form-control" id="username"  name="username">
+            </div>
+            <div class="form-group">
+                <label for="password">CONTRASEÑA</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+        </form>
+    </div>
 </div>
+
+<?php include 'footer.php'; ?>
 </body>
 </html>
