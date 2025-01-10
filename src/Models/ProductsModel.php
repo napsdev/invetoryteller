@@ -99,11 +99,66 @@ class ProductsModel
             return "ID no válido.";
         }
         try {
+            //could be optimized with ON CASCADE DELETE
+            $stmt = $this->db->prepare("DELETE FROM productentries WHERE product_id = :id");
+            $stmt->execute([
+                'id' => $id
+            ]);
+
             $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
             $stmt->execute([
                 'id' => $id
             ]);
             return 'Eliminado con exito';
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
+    public function updateamount($id,$amount)
+    {
+        if (!is_numeric($id) || $id <= 0) {
+            return "ID no válido.";
+        }
+
+        try {
+        $product = $this->get($id);
+
+        if (empty($product)) {
+            return "Producto no encontrado con ID: ".$id;
+        }else{
+
+            $currentAmount = $product[0]['amount'];
+            $newAmount = $currentAmount + $amount;
+
+            $stmt = $this->db->prepare("UPDATE products SET amount = :amount WHERE id = :id");
+            $stmt->execute([
+                'amount' => $newAmount,
+                'id' => $id
+            ]);
+            return true;
+        }
+
+        } catch (PDOException $e) {
+            error_log("Error al actualziar stock: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
+    public function get($id)
+    {
+        if (!is_numeric($id) || $id <= 0) {
+            return "ID no válido.";
+        }
+
+        try {
+            $stmt = $this->db->prepare("SELECT id,name,purchase_price,sales_price,revenue,amount FROM products WHERE id = :id");
+            $stmt->execute([
+                'id' => $id
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error en la consulta: " . $e->getMessage());
             return "Error en la consulta";

@@ -16,4 +16,6 @@ if (!isset($_SESSION['user_id'])) {
     <link href="../../public/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Datatables CSS -->
     <link href="../../public/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- Bootstrap Select CSS -->
+    <link rel="stylesheet" href="../../public/css/bootstrap-select.min.css">
 </head>

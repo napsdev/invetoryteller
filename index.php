@@ -35,6 +35,8 @@ $router->addRoute('GET', '/logout', function () {
     $controller = new LoginController();
     $controller->logout();
 });
+//LOGIN END
+
 
 //MAIN
 $router->addRoute('GET', '/salidas', function () {
@@ -47,7 +49,10 @@ $router->addRoute('GET', '/repsalidas', function () {
     $controller = new InvoicesController();
     $controller->index();
 });
+//MAIN END
 
+
+//CRUDS
 //PAYMENT METHODS
 $router->addRoute('GET', '/pagos', function () {
     $controller = new PaymentMethodsController();
@@ -90,16 +95,31 @@ $router->addRoute('POST', '/productos/update', function () {
     $controller->update();
 });
 
-
-
-
-
-
 //PRODUCT ADD STOCK
 $router->addRoute('GET', '/entradas', function () {
     $controller = new ProductEntriesController();
     $controller->index();
 });
+
+$router->addRoute('POST', '/entradas/create', function () {
+    $controller = new ProductEntriesController();
+    $controller->create();
+});
+
+$router->addRoute('POST', '/entradas/delete', function () {
+    $controller = new ProductEntriesController();
+    $controller->delete();
+});
+//CRUDS END
+
+
+
+
+
+
+
+
+
 
 //CUSTOMERS
 $router->addRoute('GET', '/clientes', function () {
@@ -121,11 +141,14 @@ $router->addRoute('GET', '/proveedores', function () {
 
 
 
+
+
+
 //Create or update user with environment variables
 $router->addRoute('GET', '/syncuser', function () {
-    $controller = new LoginController();
-    $controller->syncUserFromEnv();
+    //$controller = new LoginController();
+    //$controller->syncUserFromEnv();
 });
-
+//Create or update user with environment variables end
 
 $router->dispatch();

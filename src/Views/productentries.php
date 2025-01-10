@@ -4,28 +4,99 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-<div class="d-flex justify-content-center align-items-center vh-100">
+<?php if (!empty($_GET['message'])): ?>
+<div class="alert alert-warning alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
+    <?= $_GET['message'] ?>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<?php endif; ?>
+
+<div class="d-flex justify-content-center align-items-center mt-5 mb-5">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Ingreso cantidad de productos</h3>
-        <form action="#" method="post">
+        <form action="<?= $_ENV['BASE_URL_PATH']?>entradas/create" method="post">
+
+
             <div class="form-group">
-                <label for="ejemplo1">EJEMPLO 1</label>
-                <input type="email" class="form-control" id="ejemplo1" aria-describedby="emailHelp">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <label for="product_id">Producto:</label>
+                <select class="selectpicker" data-live-search="true" id="product_id" name="product_id">
+                    <?php if (!empty($listProducts)): ?>
+                                <?php foreach ($listProducts as $row): ?>
+                                        <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['name'])?></option>
+                                <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
             </div>
+
+
             <div class="form-group">
-                <label for="ejemplo2">EJEMPLO 2</label>
-                <input type="password" class="form-control" id="ejemplo2">
+                <label for="amount">Cantidad</label>
+                <input type="number" class="form-control" id="amount" name="amount" value="0" required min="0">
             </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="ejemplo3">
-                <label class="form-check-label" for="ejemplo3">EJEMPLO 3</label>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+
+
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
         </form>
     </div>
 </div>
+
+<?php if (!empty($table)): ?>
+    <div class="mb-3">
+        <table id="productentries" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <th>Monto Total Producto</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($table as $row): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['name']) ?></td>
+                    <td><?= htmlspecialchars($row['amount']) ?></td>
+                    <td><?= htmlspecialchars($row['date']) ?></td>
+                    <td><?= htmlspecialchars($row['totalamount']) ?></td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Acciones">
+                            <button type="button" class="btn btn-danger" onclick="deleteProductentries(<?=$row['id']?>)">Eliminar</button>
+                        </div>
+
+                        <form id="delete-form" action="<?= $_ENV['BASE_URL_PATH'].'/entradas/delete' ?>" method="POST" style="display:none;">
+                            <input type="hidden" name="id" value="<?=$row['id']?>">
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif; ?>
+
 <?php include 'footer.php'; ?>
+<script>
+    $(document).ready(function() {
+        $('.selectpicker').selectpicker();
+    });
+
+    new DataTable('#productentries', {
+        scrollX: true,
+        scrollY: "300px",
+        language: {
+            url: "../../public/js/dataTableEs.json"
+        }
+    });
+
+    function deleteProductentries(id) {
+        const form = document.getElementById('delete-form');
+        form.querySelector('[name="id"]').value = id;
+        form.submit();
+    }
+</script>
 </div>
 </body>
 </html>
