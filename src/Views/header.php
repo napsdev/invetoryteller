@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 
 function formatThousands($number)
 {
-    return number_format($number, 2, '.', ',');
+    return (intval($number) == $number) ? number_format($number, 0, '', ',') : number_format($number, 2, '.', ',');
 }
 
 ?>
