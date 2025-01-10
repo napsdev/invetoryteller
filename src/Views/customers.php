@@ -16,7 +16,7 @@
 
     <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
         <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-            <h3 class="text-center mb-4">Registrar formas de pago</h3>
+            <h3 class="text-center mb-4">Registrar cliente</h3>
             <form action="<?= $_ENV['BASE_URL_PATH']?>clientes/create" method="post">
 
 
