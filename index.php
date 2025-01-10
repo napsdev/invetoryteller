@@ -116,16 +116,30 @@ $router->addRoute('POST', '/entradas/delete', function () {
 
 
 
-
-
-
-
-
 //CUSTOMERS
 $router->addRoute('GET', '/clientes', function () {
     $controller = new CustomerController();
     $controller->index();
 });
+
+$router->addRoute('POST', '/clientes/create', function () {
+    $controller = new CustomerController();
+    $controller->create();
+});
+
+$router->addRoute('POST', '/clientes/delete', function () {
+    $controller = new CustomerController();
+    $controller->delete();
+});
+
+$router->addRoute('POST', '/clientes/update', function () {
+    $controller = new CustomerController();
+    $controller->update();
+});
+
+
+
+
 
 //EXPENSES
 $router->addRoute('GET', '/gastos', function () {
