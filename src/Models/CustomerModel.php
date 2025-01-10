@@ -12,7 +12,7 @@ class CustomerModel
         $this->db = $dbInstance->getConnection();
     }
 
-    public function update($id, $name, $phone, $address, $document)
+    public function update($id, $name, $phone, $address, $document, $contact)
     {
         $message = "";
         $name = trim($name);
@@ -24,14 +24,15 @@ class CustomerModel
         }else{
             try {
                 $stmt = $this->db->prepare(
-                    "UPDATE customers SET name = :name, phone = :phone, address = :address, document = :document WHERE id = :id"
+                    "UPDATE customers SET name = :name, phone = :phone, address = :address, document = :document, contact = :contact WHERE id = :id"
                 );
                 $stmt->execute([
                     'id' => $id,
                     'name' => $name,
                     'phone' => $phone,
                     'address' => $address,
-                    'document' => $document
+                    'document' => $document,
+                    'contact' => $contact
                 ]);
                 return 'Actualizado correctamente.';
             } catch (PDOException $e) {
@@ -43,7 +44,7 @@ class CustomerModel
     }
     public function list() {
         try {
-            $query = "SELECT id,name,phone,address,document FROM customers";
+            $query = "SELECT id,name,phone,address,document,contact FROM customers";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -53,7 +54,7 @@ class CustomerModel
         }
     }
 
-    public function create($name,$phone,$address,$document)
+    public function create($name,$phone,$address,$document,$contact)
     {
         $message = "";
         $name = trim($name);
@@ -65,12 +66,13 @@ class CustomerModel
             return $message;
         }else{
             try {
-                $stmt = $this->db->prepare("INSERT INTO customers (name,phone,address,document) VALUES (:name,:phone,:address,:document)");
+                $stmt = $this->db->prepare("INSERT INTO customers (name,phone,address,document,contact) VALUES (:name,:phone,:address,:document,:contact)");
                 $stmt->execute([
                     'name' => $name,
                     'phone' => $phone,
                     'address' => $address,
-                    'document' => $document
+                    'document' => $document,
+                    'contact' => $contact
                 ]);
                 return "Creado con exito: ".$name;
             } catch (PDOException $e) {

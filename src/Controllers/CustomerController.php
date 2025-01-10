@@ -20,8 +20,9 @@ class CustomerController
         $phone = $_POST['phone'] ?? null;
         $address = $_POST['address'] ?? null;
         $document = $_POST['document'] ?? null;
+        $contact = $_POST['contact'] ?? null;
 
-        $message = $this->CustomerModel->create($name,$phone,$address,$document);
+        $message = $this->CustomerModel->create($name,$phone,$address,$document,$contact);
         header('Location: '.$_ENV['BASE_URL_PATH'].'/clientes?message='.urlencode($message));
     }
 
@@ -39,9 +40,10 @@ class CustomerController
         $phone = $_POST['phone'] ?? null;
         $address = $_POST['address'] ?? null;
         $document = $_POST['document'] ?? null;
+        $contact = $_POST['contact'] ?? null;
 
         if ($id) {
-            $message = $this->CustomerModel->update($id, $name, $phone, $address, $document);
+            $message = $this->CustomerModel->update($id, $name, $phone, $address, $document, $contact);
         } else {
             $message = 'ID no proporcionado.';
         }

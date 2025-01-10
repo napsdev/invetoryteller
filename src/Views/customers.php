@@ -35,6 +35,11 @@
                     <input type="text" class="form-control" id="document" name="document" required value="N/A">
                 </div>
 
+                <div class="form-group">
+                    <label for="contact">Correo</label>
+                    <input type="text" class="form-control" id="contact" name="contact" required value="">
+                </div>
+
 
                 <button type="submit" class="btn btn-primary btn-block">Registrar</button>
             </form>
@@ -51,6 +56,7 @@
                 <th>Telefono</th>
                 <th>Dirección</th>
                 <th>Documento</th>
+                <th>Correo</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -61,6 +67,7 @@
                     <td><?= htmlspecialchars($row['phone']) ?></td>
                     <td><?= htmlspecialchars($row['address']) ?></td>
                     <td><?= htmlspecialchars($row['document']) ?></td>
+                    <td><?= htmlspecialchars($row['contact']) ?></td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Acciones">
                             <button type="button" class="btn btn-danger" onclick="deleteClient(<?=$row['id']?>)">Eliminar</button>
@@ -98,8 +105,9 @@
 
         document.getElementById('name').value = Client.name || '';
         document.getElementById('phone').value = Client.phone || '';
-        document.getElementById('address').value = Client.address || 0;
-        document.getElementById('document').value = Client.document || 0;
+        document.getElementById('address').value = Client.address || '';
+        document.getElementById('document').value = Client.document || '';
+        document.getElementById('document').value = Client.contact || '';
 
         const form = document.querySelector('form[action*="clientes/create"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/clientes/update";

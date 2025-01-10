@@ -47,9 +47,9 @@
             <thead>
             <tr>
                 <th>Nombre</th>
+                <th>Contacto</th>
                 <th>Telefono</th>
                 <th>Dirección</th>
-                <th>Documento</th>
                 <th>Acciones</th>
             </tr>
             </thead>

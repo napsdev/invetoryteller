@@ -25,7 +25,8 @@ id INT AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
 phone VARCHAR(20) NOT NULL,
 address TEXT NOT NULL,
-document VARCHAR(50) NOT NULL
+document VARCHAR(50) NOT NULL,
+contact VARCHAR(100)
 );
 
 -- Create the suppliers table
