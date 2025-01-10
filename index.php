@@ -20,6 +20,22 @@ $router->addRoute('GET', '/', function () {
     header('Location: '.$_ENV['BASE_URL_PATH'].'/login');
 });
 
+
+
+
+//MAIN
+$router->addRoute('GET', '/salidas', function () {
+    $controller = new InvoicesController();
+    $controller->index();
+});
+
+//BUSINESS INFORMATION
+$router->addRoute('GET', '/repsalidas', function () {
+    $controller = new DashboardController();
+    $controller->index();
+});
+//MAIN END
+
 //LOGIN
 $router->addRoute('GET', '/login', function () {
     $controller = new LoginController();
@@ -37,19 +53,6 @@ $router->addRoute('GET', '/logout', function () {
 });
 //LOGIN END
 
-
-//MAIN
-$router->addRoute('GET', '/salidas', function () {
-    $controller = new DashboardController();
-    $controller->index();
-});
-
-//BUSINESS INFORMATION
-$router->addRoute('GET', '/repsalidas', function () {
-    $controller = new InvoicesController();
-    $controller->index();
-});
-//MAIN END
 
 
 //CRUDS
@@ -152,20 +155,28 @@ $router->addRoute('POST', '/gastos/update', function () {
     $controller = new ExpensesController();
     $controller->update();
 });
-//CRUDS END
-
-
-
-
-
-
-
 
 //SUPPLIERS
 $router->addRoute('GET', '/proveedores', function () {
     $controller = new SuppliersController();
     $controller->index();
 });
+
+$router->addRoute('POST', '/proveedores/create', function () {
+    $controller = new SuppliersController();
+    $controller->create();
+});
+
+$router->addRoute('POST', '/proveedores/delete', function () {
+    $controller = new SuppliersController();
+    $controller->delete();
+});
+
+$router->addRoute('POST', '/proveedores/update', function () {
+    $controller = new SuppliersController();
+    $controller->update();
+});
+//CRUDS END
 
 
 

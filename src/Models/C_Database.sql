@@ -78,4 +78,6 @@ date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
+-- Restart AUTO_INCREMENT
+ALTER TABLE table_example AUTO_INCREMENT = 1;
 

@@ -4,7 +4,7 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-<p>HISTORIAL FACTURACIÓN, REPORTES</p>
+<p>SALIDAS</p>
 <?php include 'footer.php'; ?>
 </div>
 </body>
