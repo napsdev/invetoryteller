@@ -17,4 +17,12 @@
         </ul>
     </div>
 </nav>
+<?php if (!empty($_GET['message'])): ?>
+    <div class="alert alert-warning alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
+        <?= $_GET['message'] ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
 

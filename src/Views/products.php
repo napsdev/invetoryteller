@@ -4,14 +4,7 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-<?php if (!empty($_GET['message'])): ?>
-    <div class="alert alert-warning alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
-        <?= $_GET['message'] ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-<?php endif; ?>
+
 
     <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
         <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
@@ -61,10 +54,10 @@
                 <?php foreach ($table as $row): ?>
                     <tr>
                         <td><?= htmlspecialchars($row['name']) ?></td>
-                        <td><?= htmlspecialchars($row['purchase_price']) ?></td>
-                        <td><?= htmlspecialchars($row['sales_price']) ?></td>
-                        <td><?= htmlspecialchars($row['revenue']) ?></td>
-                        <td><?= htmlspecialchars($row['amount']) ?></td>
+                        <td><?= htmlspecialchars(formatThousands($row['purchase_price'])) ?></td>
+                        <td><?= htmlspecialchars(formatThousands($row['sales_price'])) ?></td>
+                        <td><?= htmlspecialchars(formatThousands($row['revenue'])) ?></td>
+                        <td><?= htmlspecialchars(formatThousands($row['amount'])) ?></td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Acciones">
                                 <button type="button" class="btn btn-danger" onclick="deleteProduct(<?=$row['id']?>)">Eliminar</button>

@@ -5,6 +5,12 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: '.$_ENV['BASE_URL_PATH'].'/login');
     exit;
 }
+
+function formatThousands($number)
+{
+    return number_format($number, 2, '.', ',');
+}
+
 ?>
 
 <head>

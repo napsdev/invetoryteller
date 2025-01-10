@@ -110,11 +110,6 @@ $router->addRoute('POST', '/entradas/delete', function () {
     $controller = new ProductEntriesController();
     $controller->delete();
 });
-//CRUDS END
-
-
-
-
 
 //CUSTOMERS
 $router->addRoute('GET', '/clientes', function () {
@@ -137,15 +132,34 @@ $router->addRoute('POST', '/clientes/update', function () {
     $controller->update();
 });
 
-
-
-
-
 //EXPENSES
 $router->addRoute('GET', '/gastos', function () {
     $controller = new ExpensesController();
     $controller->index();
 });
+
+$router->addRoute('POST', '/gastos/create', function () {
+    $controller = new ExpensesController();
+    $controller->create();
+});
+
+$router->addRoute('POST', '/gastos/delete', function () {
+    $controller = new ExpensesController();
+    $controller->delete();
+});
+
+$router->addRoute('POST', '/gastos/update', function () {
+    $controller = new ExpensesController();
+    $controller->update();
+});
+//CRUDS END
+
+
+
+
+
+
+
 
 //SUPPLIERS
 $router->addRoute('GET', '/proveedores', function () {
