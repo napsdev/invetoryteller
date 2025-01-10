@@ -66,7 +66,7 @@
                         <td><?= htmlspecialchars($row['revenue']) ?></td>
                         <td><?= htmlspecialchars($row['amount']) ?></td>
                         <td>
-                            <form class="mb-1" action="<?= $_ENV['BASE_URL_PATH'].'/pagos/delete' ?>" method="POST">
+                            <form class="mb-1" action="<?= $_ENV['BASE_URL_PATH'].'/productos/delete' ?>" method="POST">
                                 <input type="hidden" name="id" value="<?=$row['id']?>">
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
                             </form>

@@ -80,6 +80,16 @@ $router->addRoute('POST', '/productos/create', function () {
     $controller->create();
 });
 
+$router->addRoute('POST', '/productos/delete', function () {
+    $controller = new ProductsController();
+    $controller->delete();
+});
+
+$router->addRoute('POST', '/productos/update', function () {
+    $controller = new ProductsController();
+    $controller->update();
+});
+
 //PRODUCT ADD STOCK
 $router->addRoute('GET', '/entradas', function () {
     $controller = new ProductEntriesController();

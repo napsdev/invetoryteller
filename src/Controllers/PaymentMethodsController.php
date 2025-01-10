@@ -4,10 +4,13 @@ use App\Models\PaymentMethodsModel;
 
 class PaymentMethodsController
 {
+    private $PaymentMethodsModel;
+    public function __construct(){
+        $this->PaymentMethodsModel = new PaymentMethodsModel();
+    }
     public function index()
     {
-        $PaymentMethodsModel = new PaymentMethodsModel();
-        $table = $PaymentMethodsModel->list();
+        $table = $this->PaymentMethodsModel->list();
         require_once __DIR__ . '/../Views/paymentmethods.php';
     }
     public function update()
@@ -17,15 +20,11 @@ class PaymentMethodsController
         $description = $_POST['description'] ?? '';
         $value_added = $_POST['value_added'] ?? 0;
         $percentage = $_POST['percentage'] ?? 0;
-
         if ($id) {
-            $PaymentMethodsModel = new PaymentMethodsModel();
-            $message = $PaymentMethodsModel->update($id, $name, $description, $value_added, $percentage);
-
+            $message = $this->PaymentMethodsModel->update($id, $name, $description, $value_added, $percentage);
         } else {
             $message = 'ID no proporcionado.';
         }
-
         header('Location: ' . $_ENV['BASE_URL_PATH'] . '/pagos?message=' . urlencode($message));
     }
     public function create()
@@ -34,19 +33,14 @@ class PaymentMethodsController
         $description = $_POST['description'] ?? null;
         $value_added = $_POST['value_added'] ?? null;
         $percentage = $_POST['percentage'] ?? null;
-
-        $PaymentMethodsModel = new PaymentMethodsModel();
-        $message = $PaymentMethodsModel->create($name,$description,$value_added,$percentage);
-
+        $message = $this->PaymentMethodsModel->create($name,$description,$value_added,$percentage);
         header('Location: '.$_ENV['BASE_URL_PATH'].'/pagos?message='.urlencode($message));
     }
 
     public function delete()
     {
         $id = $_POST['id'] ?? null;
-        $PaymentMethodsModel = new PaymentMethodsModel();
-        $message = $PaymentMethodsModel->delete($id);
-
+        $message = $this->PaymentMethodsModel->delete($id);
         header('Location: '.$_ENV['BASE_URL_PATH'].'/pagos?message='.urlencode($message));
     }
 
