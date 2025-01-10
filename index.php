@@ -90,6 +90,11 @@ $router->addRoute('POST', '/productos/update', function () {
     $controller->update();
 });
 
+
+
+
+
+
 //PRODUCT ADD STOCK
 $router->addRoute('GET', '/entradas', function () {
     $controller = new ProductEntriesController();

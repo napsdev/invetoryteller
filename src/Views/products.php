@@ -66,11 +66,14 @@
                         <td><?= htmlspecialchars($row['revenue']) ?></td>
                         <td><?= htmlspecialchars($row['amount']) ?></td>
                         <td>
-                            <form class="mb-1" action="<?= $_ENV['BASE_URL_PATH'].'/productos/delete' ?>" method="POST">
+                            <div class="btn-group" role="group" aria-label="Acciones">
+                                <button type="button" class="btn btn-danger" onclick="deleteProduct(<?=$row['id']?>)">Eliminar</button>
+                                <button type="button" class="btn btn-primary" onclick="editProducts(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
+                            </div>
+
+                            <form id="delete-form" action="<?= $_ENV['BASE_URL_PATH'].'/productos/delete' ?>" method="POST" style="display:none;">
                                 <input type="hidden" name="id" value="<?=$row['id']?>">
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
                             </form>
-                            <button type="button" class="btn btn-success" onclick="editProducts(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -88,6 +91,12 @@
             url: "../../public/js/dataTableEs.json",
         }
     });
+
+    function deleteProduct(id) {
+        const form = document.getElementById('delete-form');
+        form.querySelector('[name="id"]').value = id;
+        form.submit();
+    }
 
     function editProducts(Product) {
 

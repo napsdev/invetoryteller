@@ -68,11 +68,14 @@
                     <td><?= htmlspecialchars($row['value_added']) ?></td>
                     <td><?= htmlspecialchars($row['percentage']) ?></td>
                     <td>
-                        <form class="mb-1" action="<?= $_ENV['BASE_URL_PATH'].'/pagos/delete' ?>" method="POST">
+                        <div class="btn-group" role="group" aria-label="Acciones">
+                            <button type="button" class="btn btn-danger" onclick="deletePayment(<?=$row['id']?>)">Eliminar</button>
+                            <button type="button" class="btn btn-primary" onclick="editPaymentMethod(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
+                        </div>
+
+                        <form id="delete-form" action="<?= $_ENV['BASE_URL_PATH'].'/pagos/delete' ?>" method="POST" style="display:none;">
                             <input type="hidden" name="id" value="<?=$row['id']?>">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
-                        <button type="button" class="btn btn-success" onclick="editPaymentMethod(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -92,29 +95,35 @@
         }
     });
 
+        function deletePayment(id) {
+            const form = document.getElementById('delete-form');
+            form.querySelector('[name="id"]').value = id;
+            form.submit();
+        }
+
         function editPaymentMethod(paymentMethod) {
 
-        document.getElementById('name').value = paymentMethod.name || '';
-        document.getElementById('description').value = paymentMethod.description || '';
-        document.getElementById('value_added').value = paymentMethod.value_added || 0;
-        document.getElementById('percentage').value = paymentMethod.percentage || 0;
+            document.getElementById('name').value = paymentMethod.name || '';
+            document.getElementById('description').value = paymentMethod.description || '';
+            document.getElementById('value_added').value = paymentMethod.value_added || 0;
+            document.getElementById('percentage').value = paymentMethod.percentage || 0;
 
-        const form = document.querySelector('form[action*="pagos/create"]');
-        form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/pagos/update";
+            const form = document.querySelector('form[action*="pagos/create"]');
+            form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/pagos/update";
 
-        const submitButton = form.querySelector('button[type="submit"]');
-        submitButton.textContent = 'Modificar';
-        submitButton.classList.remove('btn-primary');
-        submitButton.classList.add('btn-warning');
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.textContent = 'Modificar';
+            submitButton.classList.remove('btn-primary');
+            submitButton.classList.add('btn-warning');
 
-        let hiddenIdField = form.querySelector('input[name="id"]');
-        if (!hiddenIdField) {
-        hiddenIdField = document.createElement('input');
-        hiddenIdField.type = 'hidden';
-        hiddenIdField.name = 'id';
-        form.appendChild(hiddenIdField);
-    }
-        hiddenIdField.value = paymentMethod.id;
+            let hiddenIdField = form.querySelector('input[name="id"]');
+            if (!hiddenIdField) {
+            hiddenIdField = document.createElement('input');
+            hiddenIdField.type = 'hidden';
+            hiddenIdField.name = 'id';
+            form.appendChild(hiddenIdField);
+            }
+            hiddenIdField.value = paymentMethod.id;
     }
 </script>
 </body>
