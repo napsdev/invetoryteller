@@ -107,7 +107,7 @@
         document.getElementById('phone').value = Client.phone || '';
         document.getElementById('address').value = Client.address || '';
         document.getElementById('document').value = Client.document || '';
-        document.getElementById('document').value = Client.contact || '';
+        document.getElementById('contact').value = Client.contact || '';
 
         const form = document.querySelector('form[action*="clientes/create"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/clientes/update";
