@@ -48,7 +48,7 @@
                     <td id="ThousandsSeparator"><?= htmlspecialchars(formatThousands($row['amount'])) ?></td>
                     <td><?= htmlspecialchars($row['date']) ?></td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Acciones">
+                        <div class="btn-group" role="group">
                             <button type="button" class="btn btn-danger" onclick="deleteExpenses(<?=$row['id']?>)">Eliminar</button>
                             <button type="button" class="btn btn-primary" onclick="editExpenses(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
                         </div>

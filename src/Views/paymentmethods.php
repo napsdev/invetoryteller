@@ -60,7 +60,7 @@
                     <td><?= htmlspecialchars(formatThousands($row['value_added'])) ?></td>
                     <td><?= htmlspecialchars($row['percentage']) ?></td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Acciones">
+                        <div class="btn-group" role="group">
                             <button type="button" class="btn btn-danger" onclick="deletePayment(<?=$row['id']?>)">Eliminar</button>
                             <button type="button" class="btn btn-primary" onclick="editPaymentMethod(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
                         </div>

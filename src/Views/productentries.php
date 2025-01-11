@@ -55,7 +55,7 @@
                     <td><?= htmlspecialchars($row['date']) ?></td>
                     <td><?= htmlspecialchars(formatThousands($row['totalamount'])) ?></td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Acciones">
+                        <div class="btn-group" role="group">
                             <button type="button" class="btn btn-danger" onclick="deleteProductentries(<?=$row['id']?>)">Eliminar</button>
                         </div>
 

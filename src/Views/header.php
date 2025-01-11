@@ -24,4 +24,5 @@ function formatThousands($number)
     <link href="../../public/css/dataTables.bootstrap4.css" rel="stylesheet">
     <!-- Bootstrap Select CSS -->
     <link rel="stylesheet" href="../../public/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="../../public/css/styles.css">
 </head>

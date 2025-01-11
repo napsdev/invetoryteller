@@ -5,4 +5,4 @@
 <script src="../../public/js/dataTables.js"></script>
 <script src="../../public/js/dataTables.bootstrap4.js"></script>
 <script src="../../public/js/bootstrap-select.min.js"></script>
-
+<script src="../../public/js/scripts.js"></script>

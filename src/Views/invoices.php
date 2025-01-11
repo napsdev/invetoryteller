@@ -4,7 +4,7 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-<form action="<?= $_ENV['BASE_URL_PATH']?>salidas/create" method="post">
+<form action="<?= $_ENV['BASE_URL_PATH']?>salidas/create" method="post" id="productForm">
 
 
 <div class="d-flex justify-content-center align-items-center mt-5 mb-1" id="products">
@@ -16,7 +16,7 @@
                 <select class="selectpicker" data-live-search="true" id="product_id" name="product_id">
                     <?php if (!empty($listProducts)): ?>
                         <?php foreach ($listProducts as $row): ?>
-                            <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['name'])?></option>
+                            <option value="<?= htmlspecialchars($row['id']) ?>" data-price="<?= htmlspecialchars($row['sales_price'])?>"><?= htmlspecialchars($row['name'])?></option>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
@@ -27,7 +27,7 @@
                 <input type="number" class="form-control" id="amount" name="amount" value="1" required min="1">
             </div>
 
-            <button type="button" class="btn btn-success btn-block">Agregar</button>
+            <button type="button" class="btn btn-success btn-block" id="addProduct">Agregar</button>
 
     </div>
 </div>
@@ -37,8 +37,9 @@
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Seleccione el cliente</h3>
         <div class="form-group">
-            <label for="customer_id">Cliente:</label>
+            <p>Cliente:</p>
             <select class="selectpicker" data-live-search="true" id="customer_id" name="customer_id">
+                <option value="">Seleccione</option>
                 <?php if (!empty($listClients)): ?>
                     <?php foreach ($listClients as $row): ?>
                         <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['name'])." / ".htmlspecialchars($row['contact'])?></option>
@@ -48,14 +49,14 @@
         </div>
 
         <div class="form-group">
-            <label for="register">No registrado (Check):</label>
-            <div class="input-group mb-3" id="register">
+            <label for="newCustomer">No registrado (Check):</label>
+            <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <input type="checkbox" id="newCustomer" name="newCustomer" aria-label="Checkbox para cliente nuevo">
+                        <input type="checkbox" id="newCustomer" name="newCustomer">
                     </div>
                 </div>
-                <input type="text" class="form-control" id="newCustomername" name="newCustomername" placeholder="Nombre cliente" aria-label="Campo de texto con checkbox">
+                <input type="text" class="form-control" id="newCustomername" name="newCustomername" placeholder="Nombre cliente">
             </div>
         </div>
 
@@ -73,10 +74,11 @@
 
         <div class="form-group">
             <label for="paymentmethods_id">Producto:</label>
-            <select class="selectpicker" data-live-search="true" id="paymentmethods_id" name="paymentmethods_id">
+            <select class="selectpicker" data-live-search="true" id="paymentmethods_id" name="paymentmethods_id" required>
+                <option value="">Seleccione</option>
                 <?php if (!empty($listPaymentsMethods)): ?>
                     <?php foreach ($listPaymentsMethods as $row): ?>
-                        <option value="<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['name'])?></option>
+                        <option value="<?= htmlspecialchars($row['id']) ?>" data-price="<?= htmlspecialchars($row['value_added'])?>" data-percentage="<?= htmlspecialchars($row['percentage'])?>"><?= htmlspecialchars($row['name'])?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
@@ -84,7 +86,7 @@
 
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="pending_call" name="pending_call">
-            <label class="form-check-label" for="exampleCheck1">Pendiente</label>
+            <label class="form-check-label" for="pending_call">Pendiente</label>
         </div>
 
     </div>
@@ -93,8 +95,9 @@
 <div class="d-flex justify-content-center align-items-center mt-1 mb-1" id="products">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">VALORES</h3>
-        <h3 class="text-left mb-4">ENVIO: 0</h3>
-        <h3 class="text-left mb-4">TOTAL: 0</h3>
+        <h3 class="text-left mb-4" id="totalSend"></h3>
+        <h3 class="text-left mb-4" id="totalProducts"></h3>
+        <h3 class="text-left mb-4" id="totalSum"></h3>
     </div>
 </div>
 
@@ -102,21 +105,22 @@
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">PRODUCTOS AÑADIDOS</h3>
 
+        <ul class="list-group mb-3" id="productList">
+            <!-- products -->
+        </ul>
+
         <button type="button" class="btn btn-dark btn-block">Cotizar</button>
         <button type="submit" class="btn btn-primary btn-block">Registrar</button>
     </div>
 </div>
 
+    <input type="hidden" name="products" id="productsInput">
+
 </form>
 
-
-
 <?php include 'footer.php'; ?>
-<script>
-    $(document).ready(function() {
-        $('.selectpicker').selectpicker();
-    });
-</script>
+<script src="../../public/js/invoices.js"></script>
+
 </div>
 </body>
 </html>

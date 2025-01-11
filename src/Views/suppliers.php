@@ -61,7 +61,7 @@
                     <td><?= htmlspecialchars($row['phone']) ?></td>
                     <td><?= htmlspecialchars($row['address']) ?></td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Acciones">
+                        <div class="btn-group" role="group">
                             <button type="button" class="btn btn-danger" onclick="deleteSupplier(<?=$row['id']?>)">Eliminar</button>
                             <button type="button" class="btn btn-primary" onclick="editSupplier(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
                         </div>

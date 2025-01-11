@@ -69,7 +69,7 @@
                     <td><?= htmlspecialchars($row['document']) ?></td>
                     <td><?= htmlspecialchars($row['contact']) ?></td>
                     <td>
-                        <div class="btn-group" role="group" aria-label="Acciones">
+                        <div class="btn-group" role="group">
                             <button type="button" class="btn btn-danger" onclick="deleteClient(<?=$row['id']?>)">Eliminar</button>
                             <button type="button" class="btn btn-primary" onclick="editClient(<?= htmlspecialchars(json_encode($row)) ?>)">Editar</button>
                         </div>
