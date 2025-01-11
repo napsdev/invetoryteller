@@ -89,6 +89,11 @@
             <label class="form-check-label" for="pending_call">Pendiente</label>
         </div>
 
+        <div class="form-group">
+            <label for="trackingcode">Cod.Seguimiento</label>
+            <input type="text" class="form-control" id="trackingcode" name="trackingcode">
+        </div>
+
     </div>
 </div>
 
