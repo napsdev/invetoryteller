@@ -4,49 +4,34 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-
-
-    <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
-        <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-            <h3 class="text-center mb-4">Registrar cliente</h3>
-            <form action="<?= $_ENV['BASE_URL_PATH']?>clientes/create" method="post">
-
-
-                <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-
-
-                <div class="form-group">
-                    <label for="phone">Telefono</label>
-                    <input type="text" class="form-control" id="phone" name="phone" required value="N/A">
-                </div>
-
-
-                <div class="form-group">
-                    <label for="address">Dirección</label>
-                    <input type="text" class="form-control" id="address" name="address" required value="N/A">
-                </div>
-
-
-                <div class="form-group">
-                    <label for="document">Documento</label>
-                    <input type="text" class="form-control" id="document" name="document" required value="N/A">
-                </div>
-
-                <div class="form-group">
-                    <label for="contact">Correo</label>
-                    <input type="text" class="form-control" id="contact" name="contact" required value="">
-                </div>
-
-
-                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
-            </form>
-        </div>
+<div class="d-flex justify-content-center align-items-center mt-5 mb-5">
+    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
+        <h3 class="text-center mb-4">Registrar cliente</h3>
+        <form action="<?= $_ENV['BASE_URL_PATH']?>clientes/create" method="post">
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefono</label>
+                <input type="text" class="form-control" id="phone" name="phone" required value="N/A">
+            </div>
+            <div class="form-group">
+                <label for="address">Dirección</label>
+                <input type="text" class="form-control" id="address" name="address" required value="N/A">
+            </div>
+            <div class="form-group">
+                <label for="document">Documento</label>
+                <input type="text" class="form-control" id="document" name="document" required value="N/A">
+            </div>
+            <div class="form-group">
+                <label for="contact">Correo</label>
+                <input type="text" class="form-control" id="contact" name="contact" required value="">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        </form>
     </div>
-
-
+</div>
 <?php if (!empty($table)): ?>
     <div class="mb-3">
         <table id="customers" class="table table-striped table-bordered" style="width:100%">

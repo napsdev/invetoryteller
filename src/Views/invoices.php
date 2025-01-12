@@ -12,7 +12,6 @@
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Productos</h3>
             <div class="form-group">
-                <label for="product_id">Producto:</label>
                 <select class="selectpicker" data-live-search="true" id="product_id" name="product_id">
                     <?php if (!empty($listProducts)): ?>
                         <?php foreach ($listProducts as $row): ?>
@@ -33,7 +32,6 @@
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Seleccione el cliente</h3>
         <div class="form-group">
-            <p>Cliente:</p>
             <select class="selectpicker" data-live-search="true" id="customer_id" name="customer_id">
                 <option value="">Seleccione</option>
                 <?php if (!empty($listClients)): ?>
@@ -65,7 +63,6 @@
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4" >Medio de pago</h3>
         <div class="form-group">
-            <label for="paymentmethods_id">Producto:</label>
             <select class="selectpicker" data-live-search="true" id="paymentmethods_id" name="paymentmethods_id" required>
                 <option value="">Seleccione</option>
                 <?php if (!empty($listPaymentsMethods)): ?>

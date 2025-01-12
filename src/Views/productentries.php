@@ -4,14 +4,10 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-
-
 <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Ingreso cantidad de productos</h3>
         <form action="<?= $_ENV['BASE_URL_PATH']?>entradas/create" method="post">
-
-
             <div class="form-group">
                 <label for="product_id">Producto:</label>
                 <select class="selectpicker" data-live-search="true" id="product_id" name="product_id">
@@ -22,19 +18,14 @@
                     <?php endif; ?>
                 </select>
             </div>
-
-
             <div class="form-group">
                 <label for="amount">Cantidad</label>
                 <input type="number" class="form-control" id="amount" name="amount" value="0" required min="0">
             </div>
-
-
             <button type="submit" class="btn btn-primary btn-block">Registrar</button>
         </form>
     </div>
 </div>
-
 <?php if (!empty($table)): ?>
     <div class="mb-3">
         <table id="productentries" class="table table-striped table-bordered" style="width:100%">
@@ -69,7 +60,6 @@
         </table>
     </div>
 <?php endif; ?>
-
 <?php include 'footer.php'; ?>
 <script>
     $(document).ready(function() {
