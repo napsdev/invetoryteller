@@ -10,6 +10,7 @@ class ProductEntriesController
     }
     public function index()
     {
+        $table = $this->ProductEntriesModel->list();
         $ProductsModel = new ProductsModel();
         $listProducts = $ProductsModel->list();
         require_once __DIR__ . '/../Views/productentries.php';
