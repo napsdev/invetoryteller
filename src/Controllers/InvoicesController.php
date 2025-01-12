@@ -34,6 +34,7 @@ class InvoicesController
         $contact = $_POST['newCustomercontact'] ?? null;
         $customer_id = $_POST['customer_id'] ?? null;
         $paymentmethods_id = $_POST['paymentmethods_id'] ?? null;
+        $trackingcode = $_POST['trackingcode'] ?? null;
 
         if (isset($_POST['pending_call'])) {
             $pending_call = 1; //check
@@ -41,7 +42,7 @@ class InvoicesController
             $pending_call = 2;
         }
 
-        $message = $this->InvoicesModel->create($customer_id,$name,$contact,$products,$pending_call,$paymentmethods_id,$OptionCustomerSelect);;
+        $message = $this->InvoicesModel->create($customer_id,$name,$contact,$products,$pending_call,$paymentmethods_id,$OptionCustomerSelect, $trackingcode);;
 
         header('Location: ' . $_ENV['BASE_URL_PATH'] . '/salidas?message=' . urlencode($message));
 

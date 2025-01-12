@@ -20,7 +20,7 @@ class InvoicesModel
         $this->customersInstance = new CustomerModel();
     }
 
-    public function create($customer_id,$name,$contact,$products,$pending_call,$paymentmethods_id,$OptionCustomerSelect)
+    public function create($customer_id,$name,$contact,$products,$pending_call,$paymentmethods_id,$OptionCustomerSelect, $trackingcode)
     {
         if (isset($OptionCustomerSelect)) {
             //New Customer
@@ -38,6 +38,7 @@ class InvoicesModel
         }
         if (!empty($products)) {
             foreach ($products as $product) {
+                //products logic
                 $product['id'];
                 $product['amount'];
                 //products(jsonmysql)
@@ -56,13 +57,13 @@ class InvoicesModel
         if (!empty($message)){
             return $message;
         }else{
-            return $message="Holiwi".$pending_call;
+            //main business logic
         }
     }
 
     public function list() {
         try {
-            $query = "SELECT id, customer_id, products, total, revenue, date, pending_call, paymentmethods_id FROM invoices";
+            $query = "SELECT id, customer_id, products, total, revenue, date, pending_call, paymentmethods_id, trackingcode, status FROM invoices";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
