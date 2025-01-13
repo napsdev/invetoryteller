@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="<?= $_ENV['BASE_URL_PATH'] ?>/public/img/onepiece.ico">
     <title>CORDOBA ADMIN</title>
     <link href="<?= $_ENV['BASE_URL_PATH'] ?>/public/css/bootstrap.min.css" rel="stylesheet">
 </head>
