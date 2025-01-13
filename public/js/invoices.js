@@ -54,7 +54,7 @@ function calculateTotalSend() {
     const percentageValue = (totalSum * dataPercentage) / 100;
     totalSend = dataPrice + percentageValue;
     total = totalSum + dataPrice + percentageValue;
-    totalSendElement.innerHTML = `Envio: $${totalSend.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    totalSendElement.innerHTML = `Metodo de pago: $${totalSend.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     totalProductsElement.innerHTML = `Productos: $${totalSum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     totalSumElement.innerHTML = `Total: $${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
