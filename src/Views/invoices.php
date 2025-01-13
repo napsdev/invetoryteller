@@ -4,7 +4,7 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-<form action="<?= $_ENV['BASE_URL_PATH']?>salidas/create" method="post" id="productForm">
+<form action="<?= $_ENV['BASE_URL_PATH']?>/salidas/create" method="post" id="productForm">
 <div class="container mt-5 mb-1" id="products">
 <div class="row justify-content-center">
 
@@ -112,7 +112,7 @@
 </form>
 
 <?php include 'footer.php'; ?>
-<script src="../../public/js/invoices.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices.js"></script>
 
 </div>
 </body>

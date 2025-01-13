@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-center align-items-center mt-5 mb-5">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Registrar productos</h3>
-        <form action="<?= $_ENV['BASE_URL_PATH']?>productos/create" method="post">
+        <form action="<?= $_ENV['BASE_URL_PATH']?>/productos/create" method="post">
             <div class="form-group">
                 <label for="name">Nombre del producto</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -72,7 +72,7 @@
         scrollX: true,
         scrollY: "300px",
         language: {
-            url: "../../public/js/dataTableEs.json",
+            url: "<?= $_ENV['BASE_URL_PATH']?>/public/js/dataTableEs.json",
         }
     });
 

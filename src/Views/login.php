@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CORDOBA ADMIN</title>
-    <!-- Bootstrap CSS -->
-    <link href="../../public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= $_ENV['BASE_URL_PATH'] ?>/public/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
