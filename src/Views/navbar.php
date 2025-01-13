@@ -7,7 +7,7 @@
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>salidas">SALIDAS</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>repsalidas">REPORTES</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>pagos">FORMAS DE PAGO</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>pagos">F.PAGO</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>productos">PRODUCTOS</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>entradas">ENTRADAS</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>clientes">CLIENTES</a></li>

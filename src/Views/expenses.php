@@ -74,7 +74,7 @@
         document.getElementById('description').value = Expense.description || '';
         document.getElementById('amount').value = Expense.amount || '';
 
-        const form = document.querySelector('form[action*="gastos/create"]');
+        const form = document.querySelector('form[action*="gastos/"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/gastos/update";
 
         const submitButton = form.querySelector('button[type="submit"]');

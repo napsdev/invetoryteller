@@ -87,7 +87,7 @@
         document.getElementById('phone').value = Supplier.phone || 0;
         document.getElementById('address').value = Supplier.address || 0;
 
-        const form = document.querySelector('form[action*="proveedores/create"]');
+        const form = document.querySelector('form[action*="proveedores/"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/proveedores/update";
 
         const submitButton = form.querySelector('button[type="submit"]');

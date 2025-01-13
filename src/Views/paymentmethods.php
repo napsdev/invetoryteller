@@ -88,7 +88,7 @@
             document.getElementById('value_added').value = paymentMethod.value_added || 0;
             document.getElementById('percentage').value = paymentMethod.percentage || 0;
 
-            const form = document.querySelector('form[action*="pagos/create"]');
+            const form = document.querySelector('form[action*="pagos/"]');
             form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/pagos/update";
 
             const submitButton = form.querySelector('button[type="submit"]');

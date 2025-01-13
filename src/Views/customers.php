@@ -94,7 +94,7 @@
         document.getElementById('document').value = Client.document || '';
         document.getElementById('contact').value = Client.contact || '';
 
-        const form = document.querySelector('form[action*="clientes/create"]');
+        const form = document.querySelector('form[action*="clientes/"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/clientes/update";
 
         const submitButton = form.querySelector('button[type="submit"]');

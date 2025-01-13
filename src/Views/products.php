@@ -89,7 +89,7 @@
         document.getElementById('sales_price').value = Product.sales_price || 0;
         document.getElementById('amount').value = Product.amount || 0;
 
-        const form = document.querySelector('form[action*="productos/create"]');
+        const form = document.querySelector('form[action*="productos/"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/productos/update";
 
         const submitButton = form.querySelector('button[type="submit"]');
