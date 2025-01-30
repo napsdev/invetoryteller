@@ -11,12 +11,15 @@ class ProductsModel
         $dbInstance = new Database();
         $this->db = $dbInstance->getConnection();
     }
-    public function update($id,$name,$purchase_price,$sales_price,$amount)
+    public function update($id,$name,$purchase_price,$sales_price,$amount,$barcod)
     {
         $message = "";
         $name = trim($name);
         if (empty($name)) {
             $message = "El nombre es obligatorio.";
+        }
+        if (empty($barcod)) {
+            $message = "El Cod. Barras es obligatorio.";
         }
         if (!is_numeric($purchase_price) || $purchase_price < 0) {
             $message = "El precio de compra debe ser un número entero positivo.";
@@ -31,13 +34,14 @@ class ProductsModel
             return $message;
         } else {
             try {
-                $stmt = $this->db->prepare("UPDATE products SET name=:name,purchase_price=:purchase_price,sales_price=:sales_price,amount=:amount WHERE id=:id");
+                $stmt = $this->db->prepare("UPDATE products SET name=:name,purchase_price=:purchase_price,sales_price=:sales_price,amount=:amount,amount=:amount,barcod=:barcod WHERE id=:id");
                 $stmt->execute([
                     'id' => $id,
                     'name' => $name,
                     'purchase_price' => (float)$purchase_price,
                     'sales_price' => (float)$sales_price,
-                    'amount' => (int)$amount
+                    'amount' => (int)$amount,
+                    'barcod' =>$barcod
                 ]);
                 return 'Actualizado correctamente.';
             } catch (PDOException $e) {
@@ -49,7 +53,7 @@ class ProductsModel
 
     public function list() {
         try {
-            $query = "SELECT id,name,purchase_price,sales_price,revenue,amount FROM products";
+            $query = "SELECT id,name,purchase_price,sales_price,revenue,amount,barcod FROM products";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
 
@@ -59,12 +63,15 @@ class ProductsModel
             return "Error en la consulta";
         }
     }
-    public function create($name,$purchase_price,$sales_price,$amount)
+    public function create($name,$purchase_price,$sales_price,$amount,$barcod)
     {
         $message = "";
         $name = trim($name);
         if (empty($name)) {
             $message = "El nombre es obligatorio.";
+        }
+        if (empty($barcod)) {
+            $message = "El Cod. Barras es obligatorio.";
         }
         if (!is_numeric($purchase_price) || $purchase_price < 0) {
             $message = "El precio de compra debe ser un número entero positivo.";
@@ -79,12 +86,13 @@ class ProductsModel
             return $message;
         }else{
             try {
-                $stmt = $this->db->prepare("INSERT INTO products (name,purchase_price,sales_price,amount) VALUES (:name,:purchase_price,:sales_price,:amount)");
+                $stmt = $this->db->prepare("INSERT INTO products (name,purchase_price,sales_price,amount,barcod) VALUES (:name,:purchase_price,:sales_price,:amount,:barcod)");
                 $stmt->execute([
                     'name' => $name,
                     'purchase_price' => (int)$purchase_price,
                     'sales_price' => (int)$sales_price,
-                    'amount' => (int)$amount
+                    'amount' => (int)$amount,
+                    'barcod' =>$barcod
                 ]);
                 return "Creado con exito: ".$name;
             } catch (PDOException $e) {

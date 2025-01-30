@@ -24,6 +24,10 @@
                 <label for="amount">Cantidad</label>
                 <input type="number" class="form-control" id="amount" name="amount" value="0" required min="0">
             </div>
+            <div class="form-group">
+                <label for="barcod">Cod, Barras</label>
+                <input type="text" class="form-control" id="barcod" name="barcod" value="NA">
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Registrar</button>
         </form>
     </div>
@@ -38,6 +42,7 @@
             <th>Precio de venta</th>
             <th>Ganancia</th>
             <th>Cantidad</th>
+            <th>Cod. Barras</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -49,6 +54,7 @@
                 <td><?= htmlspecialchars(formatThousands($row['sales_price'])) ?></td>
                 <td><?= htmlspecialchars(formatThousands($row['revenue'])) ?></td>
                 <td><?= htmlspecialchars(formatThousands($row['amount'])) ?></td>
+                <td><?= htmlspecialchars($row['barcod']) ?></td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Acciones">
                         <button type="button" class="btn btn-danger" onclick="deleteProduct(<?=$row['id']?>)">Eliminar</button>
@@ -85,6 +91,7 @@
     function editProducts(Product) {
 
         document.getElementById('name').value = Product.name || '';
+        document.getElementById('barcod').value = Product.barcod || '';
         document.getElementById('purchase_price').value = Product.purchase_price || 0;
         document.getElementById('sales_price').value = Product.sales_price || 0;
         document.getElementById('amount').value = Product.amount || 0;

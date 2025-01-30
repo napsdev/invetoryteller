@@ -15,7 +15,7 @@
                 <select class="selectpicker" data-live-search="true" id="product_id" name="product_id">
                     <?php if (!empty($listProducts)): ?>
                         <?php foreach ($listProducts as $row): ?>
-                            <option value="<?= htmlspecialchars($row['id']) ?>" data-price="<?= htmlspecialchars($row['sales_price'])?>"><?= htmlspecialchars($row['name'])?></option>
+                            <option value="<?= htmlspecialchars($row['id']) ?>" data-price="<?= htmlspecialchars($row['sales_price'])?>"><?= htmlspecialchars($row['name'])." - ".htmlspecialchars($row['barcod'])?></option>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
@@ -26,6 +26,7 @@
             </div>
             <button type="button" class="btn btn-success btn-block" id="addProduct">Agregar</button>
     </div>
+
     </div>
 
     <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex justify-content-center">

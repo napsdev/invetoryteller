@@ -1,3 +1,42 @@
+//Bar Code
+function searchAndAddProduct(barcodeBuscado) {
+    const select = document.getElementById("product_id");
+    const opciones = select.options;
+    barcodeBuscado = barcodeBuscado.trim().toLowerCase(); // Limpia el código de barras
+    let encontrado = false;
+    for (let i = 0; i < opciones.length; i++) {
+        let textoOpcion = opciones[i].textContent.trim().toLowerCase();
+
+        if (textoOpcion.includes(barcodeBuscado)) {
+            select.value = opciones[i].value; // Selecciona el producto
+            $(select).selectpicker('refresh'); // Actualiza el selectpicker si usa Bootstrap
+            encontrado = true;
+            break;
+        }
+    }
+    if (encontrado) {
+        document.getElementById("addProduct").click(); // Simula el clic en "Agregar"
+    } else {
+        alert("Producto no encontrado: " + barcodeBuscado);
+    }
+}
+let scannedCode = "";
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        if (scannedCode.length > 0) {
+            searchAndAddProduct(scannedCode);
+            scannedCode = ""; // Resetea para el próximo escaneo
+        }
+        return;
+    }
+
+    if (event.key.length === 1) {
+        scannedCode += event.key;
+    }
+});
+
+
+
 //Preview logic start
 let products = [];
 let totalSum = 0;
@@ -12,6 +51,7 @@ const totalSendElement = document.getElementById("totalSend");
 const totalProductsElement = document.getElementById("totalProducts");
 const totalSumElement = document.getElementById("totalSum");
 
+
 addProductButton.addEventListener("click", () => {
     const productId = productSelect.value;
     const productName = productSelect.options[productSelect.selectedIndex].text;
@@ -21,9 +61,15 @@ addProductButton.addEventListener("click", () => {
         alert("Por favor selecciona un producto válido, una cantidad mayor a 0 y un precio correcto.");
         return;
     }
-    const totalPrice = productPrice * amount;
-    products.push({ id: productId, name: productName, price: productPrice, amount: amount, total: totalPrice });
-    totalSum += totalPrice;
+    const existingProduct = products.find(product => product.id === productId);
+    if (existingProduct) {
+        existingProduct.amount += amount;
+        existingProduct.total = existingProduct.amount * existingProduct.price;
+    } else {
+        const totalPrice = productPrice * amount;
+        products.push({ id: productId, name: productName, price: productPrice, amount: amount, total: totalPrice });
+    }
+    totalSum = products.reduce((sum, product) => sum + product.total, 0);
     updateProductList();
     calculateTotalSend();
 });

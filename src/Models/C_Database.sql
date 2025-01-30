@@ -13,6 +13,7 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 CREATE TABLE IF NOT EXISTS products (
 id INT AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
+barcod VARCHAR(255) NOT NULL,
 purchase_price DECIMAL(10, 2) NOT NULL,
 sales_price DECIMAL(10, 2) NOT NULL,
 revenue DECIMAL(10, 2) AS (sales_price - purchase_price) STORED,
