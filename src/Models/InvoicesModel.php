@@ -37,14 +37,32 @@ class InvoicesModel
             }
         }
         if (!empty($products)) {
+            $total = 0;
+            $revenue = 0;
+            $productsArray = [];
+            //save the total shipping value -> products(jsonmysql)
             foreach ($products as $product) {
-                //products logic
-                $product['id'];
-                $product['amount'];
-                //products(jsonmysql)
-                //total(int)
-                //revenue(int)
-                //save the total shipping value -> products(jsonmysql)
+                $productinfo = $this->productInstance->get($product['id']);
+                //$this->productInstance->updateamount($product['id'],$product['amount']);
+                if (!empty($productinfo) && is_array($productinfo)) {
+                    $productData = $productinfo[0];
+                    $total += $productData['sales_price'] * $product['quantity'];
+                    $revenue += $productData['revenue'] * $product['quantity'];
+
+                    $productsArray[] = [
+                        'id' => $productData['id'],
+                        'name' => $productData['name'],
+                        'purchase_price' => $productData['purchase_price'],
+                        'sales_price' => $productData['sales_price'],
+                        'revenue' => $productData['revenue'],
+                        'amount' => $productData['amount'],
+                        'quantity' => $product['quantity'] // Agregamos la cantidad comprada
+                    ];
+                }
+
+                $productsJSON = json_encode($productsArray, JSON_PRETTY_PRINT);
+                echo $productsJSON;
+
             }
         } else {
             $message = 'El arreglo de productos está vacío.';
@@ -57,7 +75,10 @@ class InvoicesModel
         if (!empty($message)){
             return $message;
         }else{
-            //main business logic
+
+
+
+
         }
     }
 

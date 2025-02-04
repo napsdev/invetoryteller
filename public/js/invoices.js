@@ -2,38 +2,39 @@
 function searchAndAddProduct(barcodeBuscado) {
     const select = document.getElementById("product_id");
     const opciones = select.options;
-    barcodeBuscado = barcodeBuscado.trim().toLowerCase(); // Limpia el código de barras
+    barcodeBuscado = barcodeBuscado.trim().toLowerCase();
     let encontrado = false;
     for (let i = 0; i < opciones.length; i++) {
         let textoOpcion = opciones[i].textContent.trim().toLowerCase();
 
         if (textoOpcion.includes(barcodeBuscado)) {
-            select.value = opciones[i].value; // Selecciona el producto
-            $(select).selectpicker('refresh'); // Actualiza el selectpicker si usa Bootstrap
+            select.value = opciones[i].value;
+            $(select).selectpicker('refresh');
             encontrado = true;
             break;
         }
     }
     if (encontrado) {
-        document.getElementById("addProduct").click(); // Simula el clic en "Agregar"
+        document.getElementById("addProduct").click();
     } else {
         alert("Producto no encontrado: " + barcodeBuscado);
     }
 }
 let scannedCode = "";
+
 document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
         if (scannedCode.length > 0) {
             searchAndAddProduct(scannedCode);
-            scannedCode = ""; // Resetea para el próximo escaneo
+            scannedCode = "";
         }
         return;
     }
-
     if (event.key.length === 1) {
         scannedCode += event.key;
     }
 });
+
 
 
 
