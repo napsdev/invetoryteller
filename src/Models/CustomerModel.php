@@ -74,7 +74,7 @@ class CustomerModel
                     'document' => $document,
                     'contact' => $contact
                 ]);
-                return "Creado con exito: ".$name;
+                return $this->db->lastInsertId();
             } catch (PDOException $e) {
                 error_log("Error en la consulta: " . $e->getMessage());
                 return "Error en la consulta";

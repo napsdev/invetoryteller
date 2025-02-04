@@ -23,8 +23,23 @@ function searchAndAddProduct(barcodeBuscado) {
 let scannedCode = "";
 
 document.addEventListener("keydown", function (event) {
+    scannedCode = scannedCode.trim();
+
+    const amount = document.getElementById("amount");
+    const newCustomername = document.getElementById("newCustomername");
+    const newCustomercontact = document.getElementById("newCustomercontact");
+    const trackingcode = document.getElementById("trackingcode");
+
+    if (document.activeElement === newCustomername 
+        || document.activeElement === newCustomercontact 
+        || document.activeElement === trackingcode
+        || document.activeElement === amount) {
+        return;
+    };
+
+
     if (event.key === "Enter") {
-        if (scannedCode.length > 0) {
+        if (scannedCode.length > 1) {
             searchAndAddProduct(scannedCode);
             scannedCode = "";
         }
@@ -54,6 +69,10 @@ const totalSumElement = document.getElementById("totalSum");
 
 
 addProductButton.addEventListener("click", () => {
+    if (amountInput.value <= 0) {
+        alert("Por favor selecciona una cantidad mayor a 0.");
+        return;
+    }
     const productId = productSelect.value;
     const productName = productSelect.options[productSelect.selectedIndex].text;
     const productPrice = parseFloat(productSelect.options[productSelect.selectedIndex].dataset.price);
@@ -85,11 +104,26 @@ function updateProductList() {
         const listItem = document.createElement("li");
         listItem.className = "list-group-item d-flex justify-content-between align-items-center";
         listItem.innerHTML = `
-            ${product.name} - Cantidad: ${product.amount.toLocaleString()} 
-            - Precio Unitario: $${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} 
-            - Total: $${product.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            <button class="btn btn-danger btn-sm" onclick="removeProduct(${index})">Eliminar</button>
-        `;
+            <div class="w-100">
+                <!-- Información del producto -->
+                <div class="text-left">
+                    <strong>${product.name}</strong><br>
+                    <small class="text-muted">
+                        Precio Unitario: $${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} |
+                        Total: $${product.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </small>
+                </div>
+
+                <!-- Controles de cantidad y eliminar -->
+                <div class="d-flex justify-content-center align-items-center mt-2">
+                    <button class="btn btn-outline-secondary btn-sm mr-2" onclick="updateAmount(${index}, -1)">&#8722;</button>
+                    <span class="font-weight-bold mx-2">${product.amount.toLocaleString()}</span>
+                    <button class="btn btn-outline-secondary btn-sm ml-2" onclick="updateAmount(${index}, 1)">&#43;</button>
+                    <button class="btn btn-danger btn-sm ml-3" onclick="removeProduct(${index})">X</button>
+                </div>
+            </div>
+            `;
+
         productList.appendChild(listItem);
     });
 }
@@ -106,20 +140,32 @@ function calculateTotalSend() {
     totalSumElement.innerHTML = `Total: $${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
+function updateAmount(index, change) {
+    if (products[index].amount + change > 0) {
+        products[index].amount += change;
+        products[index].total = products[index].amount * products[index].price;
+        totalSum = products.reduce((sum, product) => sum + product.total, 0);
+        updateProductList();
+        calculateTotalSend();
+    } else {
+        removeProduct(index);
+    }
+}
+
 function removeProduct(index) {
     totalSum -= products[index].total;
     products.splice(index, 1);
     updateProductList();
     calculateTotalSend();
 }
-//Preview logic end
-
-
 
 document.getElementById('productForm').addEventListener('submit', function (event) {
     const productsInput = document.getElementById('productsInput');
     productsInput.value = JSON.stringify(products);
 });
+//Preview logic end
+
+
 $(document).ready(function() {
     $('.selectpicker').selectpicker();
 });

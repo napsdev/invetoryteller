@@ -22,14 +22,20 @@ class InvoicesModel
 
     public function create($customer_id,$name,$contact,$products,$pending_call,$paymentmethods_id,$OptionCustomerSelect, $trackingcode)
     {
+        $message = "";
+
         if (isset($OptionCustomerSelect)) {
-            //New Customer
             $phone = 'N/A';
             $address = 'N/A';
             $document = 'N/A';
 
             if(empty(trim($name)) || empty(trim($contact))){
                 $message = 'El nombre del cliente o el correo no puede estar vacio.';
+            }else{
+                $customer_id = $this->customersInstance->create($name,$phone,$address,$document,$contact);
+                if (!is_numeric($customer_id)) {
+                    $message = 'Error al crear el cliente.';
+                }
             }
         } else {
             if(!is_numeric(($customer_id))){
@@ -40,30 +46,46 @@ class InvoicesModel
             $total = 0;
             $revenue = 0;
             $productsArray = [];
-            //save the total shipping value -> products(jsonmysql)
+            
             foreach ($products as $product) {
                 $productinfo = $this->productInstance->get($product['id']);
-                //$this->productInstance->updateamount($product['id'],$product['amount']);
+                $this->productInstance->updateAmount($product['id'], -abs($product['amount']));
+
                 if (!empty($productinfo) && is_array($productinfo)) {
                     $productData = $productinfo[0];
-                    $total += $productData['sales_price'] * $product['quantity'];
-                    $revenue += $productData['revenue'] * $product['quantity'];
+                    $total += $productData['sales_price'] * $product['amount'];
+                    $revenue += $productData['revenue'] * $product['amount'];
 
                     $productsArray[] = [
-                        'id' => $productData['id'],
                         'name' => $productData['name'],
-                        'purchase_price' => $productData['purchase_price'],
                         'sales_price' => $productData['sales_price'],
-                        'revenue' => $productData['revenue'],
-                        'amount' => $productData['amount'],
-                        'quantity' => $product['quantity'] // Agregamos la cantidad comprada
+                        'amount' => $product['amount'],
                     ];
                 }
 
-                $productsJSON = json_encode($productsArray, JSON_PRETTY_PRINT);
-                echo $productsJSON;
-
             }
+
+            $paymentmethod_info = $this->paymentMethodsInstance->get($paymentmethods_id);
+                if (!empty($paymentmethod_info) && is_array($paymentmethod_info)) {
+                    $paymentmethodData = $paymentmethod_info[0];
+                    if ($paymentmethodData['percentage'] == 0) {
+                    $shipping = $paymentmethodData['value_added'];
+                    } else {
+                    $shipping = ($total*($paymentmethodData['percentage']/100))+$paymentmethodData['value_added'];
+                    }
+                }
+
+                $productsArray[] = [
+                    'name' => 'Envio',
+                    'sales_price' => $shipping,
+                    'amount' => 1,
+                ];
+
+                $total += $shipping;
+
+            $productsJSON = json_encode($productsArray, JSON_PRETTY_PRINT);
+
+
         } else {
             $message = 'El arreglo de productos está vacío.';
         }
@@ -76,9 +98,26 @@ class InvoicesModel
             return $message;
         }else{
 
+            try {
+                $query = "INSERT INTO invoices (customer_id, products, total, revenue, pending_call, paymentmethods_id, trackingcode) VALUES (:customer_id, :products, :total, :revenue, :pending_call, :paymentmethods_id, :trackingcode)";
+                $stmt = $this->db->prepare($query);
+                $stmt->bindParam(':customer_id', $customer_id);
+                $stmt->bindParam(':products', $productsJSON);
+                $stmt->bindParam(':total', $total);
+                $stmt->bindParam(':revenue', $revenue);
+                $stmt->bindParam(':pending_call', $pending_call);
+                $stmt->bindParam(':paymentmethods_id', $paymentmethods_id);
+                $stmt->bindParam(':trackingcode', $trackingcode);
+                $stmt->execute();
+                return $this->db->lastInsertId();
 
+                
 
-
+                $message = 'Factura creada correctamente';
+            } catch (PDOException $e) {
+                error_log("Error en la consulta: " . $e->getMessage());
+                return "Error en la consulta";
+            }
         }
     }
 

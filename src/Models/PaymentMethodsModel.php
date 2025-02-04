@@ -107,4 +107,20 @@ class PaymentMethodsModel
             return "Error en la consulta o exietncia de facturas con esta forma de pago";
         }
     }
+
+    public function get($id) {
+        if (!is_numeric($id) || $id <= 0) {
+            return "ID no válido.";
+        }
+        try {
+            $stmt = $this->db->prepare("SELECT id, name, description, value_added, percentage FROM paymentmethods WHERE id = :id");
+            $stmt->execute([
+                'id' => $id
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
 }
