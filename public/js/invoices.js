@@ -159,10 +159,6 @@ function removeProduct(index) {
     calculateTotalSend();
 }
 
-document.getElementById('productForm').addEventListener('submit', function (event) {
-    const productsInput = document.getElementById('productsInput');
-    productsInput.value = JSON.stringify(products);
-});
 //Preview logic end
 
 

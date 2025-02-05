@@ -39,6 +39,11 @@ $router->addRoute('POST', '/salidas/create', function () {
     $controller->create();
 });
 
+$router->addRoute('POST', '/salidas/quote', function () {
+    $controller = new InvoicesController();
+    $controller->quote();
+});
+
 //BUSINESS INFORMATION
 $router->addRoute('GET', '/repsalidas', function () {
     $controller = new DashboardController();

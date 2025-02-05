@@ -4,7 +4,7 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
-<form action="<?= $_ENV['BASE_URL_PATH']?>/salidas/create" method="post" id="productForm">
+<form action="<?= $_ENV['BASE_URL_PATH']?>/salidas/create" method="post" id="productForm" target="_blank">
 <div class="container mt-5 mb-1" id="products">
 <div class="row justify-content-center">
 
@@ -100,8 +100,8 @@
         <ul class="list-group mb-3" id="productList">
             <!-- products -->
         </ul>
-        <button type="button" class="btn btn-dark btn-block">Cotizar</button>
-        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        <button type="button" class="btn btn-dark btn-block" name="quote" id="quoteButton">Cotizar</button>
+        <button type="button" class="btn btn-primary btn-block" id="registerButton">Registrar</button>
     </div>
     </div>
 
@@ -113,6 +113,21 @@
 </form>
 
 <?php include 'footer.php'; ?>
+<script>
+    document.getElementById('quoteButton').addEventListener('click', function () {
+        document.getElementById('productForm').action = "<?= $_ENV['BASE_URL_PATH']?>/salidas/quote";
+        const productsInput = document.getElementById('productsInput');
+        productsInput.value = JSON.stringify(products);
+        document.getElementById('productForm').submit();
+    });
+
+    document.getElementById('registerButton').addEventListener('click', function () {
+        document.getElementById('productForm').action = "<?= $_ENV['BASE_URL_PATH']?>/salidas/create";
+        const productsInput = document.getElementById('productsInput');
+        productsInput.value = JSON.stringify(products);
+        document.getElementById('productForm').submit();
+    });
+</script>
 <script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices.js"></script>
 
 </div>
