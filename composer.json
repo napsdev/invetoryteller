@@ -3,7 +3,7 @@
   "description": "PHP 8.2",
   "require": {
     "vlucas/phpdotenv": "^5.5",
-    "tecnickcom/tcpdf": "^6.6"
+    "mpdf/mpdf": "^8.2"
   },
   "autoload": {
     "psr-4": {

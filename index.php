@@ -11,6 +11,7 @@ use App\Controllers\ProductEntriesController;
 use App\Controllers\CustomerController;
 use App\Controllers\ExpensesController;
 use App\Controllers\SuppliersController;
+use App\Controllers\PdfController;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -21,7 +22,11 @@ $router->addRoute('GET', '/', function () {
 });
 
 
-
+//PDF
+$router->addRoute('GET', '/pdf/{id}', function ($id) {
+    $controller = new PdfController();
+    $controller->create($id);
+});
 
 //MAIN
 $router->addRoute('GET', '/salidas', function () {

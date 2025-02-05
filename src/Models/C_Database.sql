@@ -59,7 +59,7 @@ date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 pending_call BOOLEAN DEFAULT FALSE,
 paymentmethods_id INT DEFAULT NULL,
 trackingcode TEXT,
-status BOOLEAN DEFAULT FALSE,
+status BOOLEAN DEFAULT TRUE,
 FOREIGN KEY (customer_id) REFERENCES customers(id),
 FOREIGN KEY (paymentmethods_id) REFERENCES paymentmethods(id)
 );

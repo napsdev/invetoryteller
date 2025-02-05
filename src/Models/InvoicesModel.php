@@ -57,6 +57,7 @@ class InvoicesModel
                     $revenue += $productData['revenue'] * $product['amount'];
 
                     $productsArray[] = [
+                        'id' => $productData['id'],
                         'name' => $productData['name'],
                         'sales_price' => $productData['sales_price'],
                         'amount' => $product['amount'],
@@ -76,6 +77,7 @@ class InvoicesModel
                 }
 
                 $productsArray[] = [
+                    'id' => '#',
                     'name' => 'Envio',
                     'sales_price' => $shipping,
                     'amount' => 1,
@@ -121,6 +123,19 @@ class InvoicesModel
         try {
             $query = "SELECT id, customer_id, products, total, revenue, date, pending_call, paymentmethods_id, trackingcode, status FROM invoices";
             $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
+    public function get($id) {
+        try {
+            $query = "SELECT id, customer_id, products, total, revenue, date, pending_call, paymentmethods_id, trackingcode, status FROM invoices WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {

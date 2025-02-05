@@ -94,7 +94,7 @@ class CustomerModel
             return 'Eliminado con exito';
         } catch (PDOException $e) {
             error_log("Error en la consulta: " . $e->getMessage());
-            return "Error en la consulta o exietncia de facturas con esta forma de pago";
+            return "Error en la consulta o existe una factura asociada a este cliente.";
         }
     }
 

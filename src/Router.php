@@ -8,9 +8,12 @@ class Router
 
     public function addRoute($method, $path, $callback)
     {
+        $pathRegex = preg_replace('/\{([^\/]+)\}/', '(?P<$1>[^/]+)', $path);
+        $pathRegex = str_replace('/', '\/', $pathRegex);
         $this->routes[] = [
             'method' => strtoupper($method),
             'path' => $path,
+            'regex' => "/^{$pathRegex}$/",
             'callback' => $callback,
         ];
     }
@@ -28,13 +31,13 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
-            if ($route['method'] === $method && $route['path'] === $uri) {
-                return call_user_func($route['callback']);
+            if ($route['method'] === $method && preg_match($route['regex'], $uri, $matches)) {
+                $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+                return call_user_func_array($route['callback'], $params);
             }
         }
 
         http_response_code(404);
         echo "Página no encontrada.";
     }
-
 }
