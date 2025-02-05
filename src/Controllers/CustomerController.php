@@ -23,6 +23,10 @@ class CustomerController
         $contact = $_POST['contact'] ?? null;
 
         $message = $this->CustomerModel->create($name,$phone,$address,$document,$contact);
+        if(is_numeric($message)){
+            $message = 'Cliente creado con exito.';
+        }
+
         header('Location: '.$_ENV['BASE_URL_PATH'].'/clientes?message='.urlencode($message));
     }
 
