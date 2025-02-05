@@ -109,11 +109,7 @@ class InvoicesModel
                 $stmt->bindParam(':paymentmethods_id', $paymentmethods_id);
                 $stmt->bindParam(':trackingcode', $trackingcode);
                 $stmt->execute();
-                return $this->db->lastInsertId();
-
-                
-
-                $message = 'Factura creada correctamente';
+                return "Factura creada correctamente.";
             } catch (PDOException $e) {
                 error_log("Error en la consulta: " . $e->getMessage());
                 return "Error en la consulta";
