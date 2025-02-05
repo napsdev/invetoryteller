@@ -35,8 +35,8 @@ class PdfModel{
         }
         $invoice = $invoice[0];
 
-        //$customer = $this->CustomerModel->;
-
+        $customer = $this->CustomerModel->get($invoice['customer_id']);
+        $customer = $customer[0];
 
         $payment = $this->PaymentMethodsModel->get($invoice['paymentmethods_id']);
         $payment = $payment[0];
@@ -70,10 +70,10 @@ class PdfModel{
             </div>
             <div id="project">
             <div id="colone">
-            <div><span>Cliente</span> ' . $invoice['id'] . '</div>
-            <div><span>ID</span> ' . $invoice['id'] . '</div>
-            <div><span>Teléfono</span> ' . $invoice['id'] . '</div>
-            <div><span>Email</span> ' . $invoice['id'] . '</div>
+            <div><span>Cliente</span> ' . $customer['name'] . '</div>
+            <div><span>ID</span> ' . $customer['document'] . '</div>
+            <div><span>Teléfono</span> ' . $customer['phone'] . '</div>
+            <div><span>Email</span> ' . $customer['contact'] . '</div>
             <div><span>Pago</span> ' . $payment['name'] . '</div>
             </div>
             </div>

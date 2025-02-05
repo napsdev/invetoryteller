@@ -98,4 +98,20 @@ class CustomerModel
         }
     }
 
+    public function get($id) {
+        if (!is_numeric($id) || $id <= 0) {
+            return "ID no válido.";
+        }
+        try {
+            $stmt = $this->db->prepare("SELECT id, name, phone, address, document, contact FROM customers WHERE id = :id");
+            $stmt->execute([
+                'id' => $id
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
 }
