@@ -42,7 +42,9 @@ class PdfModel{
         $payment = $payment[0];
 
         $pdf = new Mpdf([
-            'mode' => 'utf-8', 'format' => [220, 280], 'margin_top' => 0,
+            'mode' => 'utf-8',
+            'format' => [220, 280],
+            'margin_top' => 7,
             'margin_left' => 7,
             'margin_right' => 7,
             'mirrorMargins' => true
