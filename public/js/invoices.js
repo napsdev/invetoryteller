@@ -29,11 +29,13 @@ document.addEventListener("keydown", function (event) {
     const newCustomername = document.getElementById("newCustomername");
     const newCustomercontact = document.getElementById("newCustomercontact");
     const trackingcode = document.getElementById("trackingcode");
+    const searchInputs = document.querySelectorAll('input[type="search"]');
 
     if (document.activeElement === newCustomername 
         || document.activeElement === newCustomercontact 
         || document.activeElement === trackingcode
-        || document.activeElement === amount) {
+        || document.activeElement === amount
+        || [...searchInputs].includes(document.activeElement)) {
         return;
     };
 
