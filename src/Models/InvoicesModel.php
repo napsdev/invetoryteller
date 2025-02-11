@@ -96,13 +96,18 @@ class InvoicesModel
             $message = 'El metodo de pago no puede estar vacio';
         }
 
+        if($pending_call == 1){
+            $status = 2; //pending
+        }else{
+            $status = 1; //completed
+        }
 
         if (!empty($message)){
             return $message;
         }else{
 
             try {
-                $query = "INSERT INTO invoices (customer_id, products, total, revenue, pending_call, paymentmethods_id, trackingcode) VALUES (:customer_id, :products, :total, :revenue, :pending_call, :paymentmethods_id, :trackingcode)";
+                $query = "INSERT INTO invoices (customer_id, products, total, revenue, pending_call, paymentmethods_id, trackingcode, status) VALUES (:customer_id, :products, :total, :revenue, :pending_call, :paymentmethods_id, :trackingcode, :status)";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':customer_id', $customer_id);
                 $stmt->bindParam(':products', $productsJSON);
@@ -111,6 +116,7 @@ class InvoicesModel
                 $stmt->bindParam(':pending_call', $pending_call);
                 $stmt->bindParam(':paymentmethods_id', $paymentmethods_id);
                 $stmt->bindParam(':trackingcode', $trackingcode);
+                $stmt->bindParam(':status', $status);
                 $stmt->execute();
 
                 return $this->db->lastInsertId();
@@ -196,10 +202,37 @@ class InvoicesModel
         }
     }
 
+    public function approve($id) {
+        try {
+            $query = "UPDATE invoices SET status = 1, pending_call = 2 WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return "Factura aprobada";
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
+    public function cancel($id) {
+        try {
+            $query = "UPDATE invoices SET status = 3, pending_call = 2 WHERE id = :id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return "Factura anulada";
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
 
     public function list() {
         try {
-            $query = "SELECT id, customer_id, products, total, revenue, date, pending_call, paymentmethods_id, trackingcode, status FROM invoices";
+            $query = "SELECT invoices.id, customers.name as customername, invoices.products, invoices.total, invoices.revenue, invoices.date, invoices.pending_call, paymentmethods.name as paymentmethodname, invoices.trackingcode, invoices.status 
+                      FROM invoices inner join customers on customers.id = invoices.customer_id  inner join paymentmethods on paymentmethods.id = invoices.paymentmethods_id ";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

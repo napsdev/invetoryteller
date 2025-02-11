@@ -26,6 +26,20 @@ class InvoicesController
         require_once __DIR__ . '/../Views/invoices.php';
     }
 
+    public function cancel()
+    {
+        $id = $_POST['id'] ?? null;
+        $message = $this->InvoicesModel->cancel($id);
+        header('Location: ' . $_ENV['BASE_URL_PATH'] . '/repsalidas?message=' . urlencode($message));
+    }
+
+    public function approve()
+    {
+        $id = $_POST['id'] ?? null;
+        $message = $this->InvoicesModel->approve($id);
+        header('Location: ' . $_ENV['BASE_URL_PATH'] . '/repsalidas?message=' . urlencode($message));
+    }
+
     public function create()
     {
         $products = json_decode($_POST['products'], true);

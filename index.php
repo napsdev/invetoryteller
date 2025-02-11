@@ -44,6 +44,16 @@ $router->addRoute('POST', '/salidas/quote', function () {
     $controller->quote();
 });
 
+$router->addRoute('POST', '/salidas/anular', function () {
+    $controller = new InvoicesController();
+    $controller->cancel();
+});
+
+$router->addRoute('POST', '/salidas/aprobar', function () {
+    $controller = new InvoicesController();
+    $controller->approve();
+});
+
 //BUSINESS INFORMATION
 $router->addRoute('GET', '/repsalidas', function () {
     $controller = new DashboardController();

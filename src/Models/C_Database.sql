@@ -85,3 +85,14 @@ FOREIGN KEY (product_id) REFERENCES products(id)
 -- Restart AUTO_INCREMENT
 ALTER TABLE table_example AUTO_INCREMENT = 1;
 
+
+
+
+
+SELECT invoices.id, customers.name as customername, invoices.products, invoices.total, invoices.revenue, invoices.date, invoices.pending_call, paymentmethods.name as paymentmethodname, invoices.trackingcode, invoices.status 
+FROM invoices
+inner join customers on customers.id = invoices.customer_id 
+inner join paymentmethods on paymentmethods.id = invoices.paymentmethods_id 
+
+
+
