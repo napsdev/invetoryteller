@@ -50,7 +50,7 @@ class PaymentMethodsModel
 
     public function list() {
         try {
-            $query = "SELECT id, name, description, value_added, percentage FROM paymentmethods";
+            $query = "SELECT id, name, description, value_added, percentage FROM paymentmethods order by id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

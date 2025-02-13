@@ -232,7 +232,7 @@ class InvoicesModel
     public function list() {
         try {
             $query = "SELECT invoices.id, customers.name as customername, invoices.products, invoices.total, invoices.revenue, invoices.date, invoices.pending_call, paymentmethods.name as paymentmethodname, invoices.trackingcode, invoices.status 
-                      FROM invoices inner join customers on customers.id = invoices.customer_id  inner join paymentmethods on paymentmethods.id = invoices.paymentmethods_id ";
+                      FROM invoices inner join customers on customers.id = invoices.customer_id  inner join paymentmethods on paymentmethods.id = invoices.paymentmethods_id order by invoices.id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -53,7 +53,7 @@ class ProductsModel
 
     public function list() {
         try {
-            $query = "SELECT id,name,purchase_price,sales_price,revenue,amount,barcod FROM products";
+            $query = "SELECT id,name,purchase_price,sales_price,revenue,amount,barcod FROM products order by id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
 

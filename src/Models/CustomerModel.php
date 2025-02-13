@@ -44,7 +44,7 @@ class CustomerModel
     }
     public function list() {
         try {
-            $query = "SELECT id,name,phone,address,document,contact FROM customers";
+            $query = "SELECT id,name,phone,address,document,contact FROM customers order by id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

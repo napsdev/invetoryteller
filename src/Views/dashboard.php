@@ -10,7 +10,7 @@
     <table id="invoices" class="table table-striped table-bordered" style="width:100%">
         <thead>
         <tr>
-            <th>Concecutivo</th>
+            <th>#</th>
             <th>Cliente</th>
             <th>Total</th>
             <th>Ganancia</th>
@@ -57,13 +57,31 @@
 <?php endif; ?>
 <?php include 'footer.php'; ?>
 
+<!-- Buttons table -->
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/dataTables.buttons.min.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/jszip.min.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/buttons.html5.min.js"></script>
 <script>
     new DataTable('#invoices', {
-        scrollX: true,
-        scrollY: "500px",
-        language: {
-            url: "<?= $_ENV['BASE_URL_PATH']?>/public/js/dataTableEs.json",
-        }
+    order: [],
+    scrollX: true,
+    scrollY: "500px",
+    language: {
+        url: "<?= $_ENV['BASE_URL_PATH']?>/public/js/dataTableEs.json",
+    },
+    dom: 'Blftip',
+    buttons: [
+            {
+                extend: 'copy',
+                text: 'Copiar',
+                className: 'btn btn-outline-primary'
+            },
+            { 
+                extend: 'excel',
+                text: 'Excel',
+                className: 'btn btn-outline-success'
+            }
+        ]
     });
 </script>
 

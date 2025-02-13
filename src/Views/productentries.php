@@ -67,6 +67,7 @@
     });
 
     new DataTable('#productentries', {
+        order: [],
         scrollX: true,
         scrollY: "300px",
         language: {

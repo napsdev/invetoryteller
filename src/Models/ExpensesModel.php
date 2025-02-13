@@ -44,7 +44,7 @@ class ExpensesModel
     }
     public function list() {
         try {
-            $query = "SELECT id,description,amount,date FROM expenses";
+            $query = "SELECT id,description,amount,date FROM expenses order by id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

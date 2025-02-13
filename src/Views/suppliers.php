@@ -67,6 +67,7 @@
 <?php include 'footer.php'; ?>
 <script>
     new DataTable('#suppliers', {
+        order: [],
         scrollX: true,
         scrollY: "300px",
         language: {

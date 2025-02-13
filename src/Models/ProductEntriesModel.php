@@ -18,7 +18,7 @@ class ProductEntriesModel
 
     public function list() {
         try {
-            $query = "SELECT productentries.id,products.name,products.amount as totalamount,productentries.amount,productentries.date FROM productentries INNER join products on products.id = productentries.product_id";
+            $query = "SELECT productentries.id,products.name,products.amount as totalamount,productentries.amount,productentries.date FROM productentries INNER join products on products.id = productentries.product_id order by productentries.id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

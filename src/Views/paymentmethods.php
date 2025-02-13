@@ -68,6 +68,7 @@
 <?php include 'footer.php'; ?>
 <script>
     new DataTable('#paymentsmethods', {
+        order: [],
         scrollX: true,
         scrollY: "300px",
         language: {

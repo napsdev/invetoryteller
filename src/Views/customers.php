@@ -71,13 +71,31 @@
 <?php endif; ?>
 
 <?php include 'footer.php'; ?>
+<!-- Buttons table -->
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/dataTables.buttons.min.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/jszip.min.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/buttons.html5.min.js"></script>
 <script>
     new DataTable('#customers', {
+        order: [],
         scrollX: true,
         scrollY: "300px",
         language: {
             url: "<?= $_ENV['BASE_URL_PATH']?>/public/js/dataTableEs.json"
-        }
+        },
+        dom: 'Blftip',
+        buttons: [
+            {
+                extend: 'copy',
+                text: 'Copiar',
+                className: 'btn btn-outline-primary'
+            },
+            { 
+                extend: 'excel',
+                text: 'Excel',
+                className: 'btn btn-outline-success'
+            }
+        ]
     });
 
     function deleteClient(id) {

@@ -56,6 +56,7 @@
 <?php include 'footer.php'; ?>
 <script>
     new DataTable('#expenses', {
+        order: [],
         scrollX: true,
         scrollY: "300px",
         language: {

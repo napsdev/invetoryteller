@@ -45,7 +45,7 @@ class SuppliersModel
     }
     public function list() {
         try {
-            $query = "SELECT id,name,contact,phone,address FROM suppliers";
+            $query = "SELECT id,name,contact,phone,address FROM suppliers order by id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
