@@ -43,6 +43,9 @@ class InvoicesModel
                 $message = 'Debe seleccionar un cliente.';
             }
         }
+        if (!empty($message)){
+            return $message;
+        }
         if (!empty($products)) {
             $total = 0;
             $revenue = 0;
