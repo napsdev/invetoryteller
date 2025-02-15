@@ -50,7 +50,7 @@
             <h3 class="text-center mb-4">AGOTADOS</h3>
             <?php if (!empty($tableProducts)): ?>
                 <?php foreach ($tableProducts as $row): ?>
-                    <?php if ($row['amount'] < 1): ?>
+                    <?php if ($row['amount'] < $_ENV['QUANTITY_OF_PRODUCTS']): ?>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h5 class="card-title"><?= htmlspecialchars($row['name']) ?></h5>
@@ -69,7 +69,7 @@
 <div class="row mb-3">
     <div class="col-12">
         <div class="card p-4 shadow-sm" style="height: 400px;">
-            <h3 class="text-center mb-4">GANANCIAS</h3>
+            <h3 class="text-center mb-4">GANANCIAS XXX</h3>
             <div style="height: 100%;">
                 <canvas id="revenue"></canvas>
             </div>
@@ -79,7 +79,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card p-4 shadow-sm" style="height: 400px;">
-            <h3 class="text-center mb-4">VENTAS</h3>
+            <h3 class="text-center mb-4">VENTAS XXX</h3>
             <div style="height: 100%;">
                 <canvas id="total"></canvas>
             </div>
@@ -152,6 +152,28 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <!-- Charts end -->
+
+<div class="row mb-3 mt-3">
+    <div class="col-12">
+        <form action="">
+            <div class="form-group">
+                <label for="search">GANANCIA Y VENTA POR DÍA</label>
+                <input type="date" class="form-control" id="search" name="search">
+                <button type="submit" class="btn btn-success mt-3">BUSCAR</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-3 mt-3">
+    <div class="col-12">
+        <form action="">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary mt-3">UBICACIÓN DEL DINERO</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <?php if (!empty($table)): ?>
 <div class="mb-3 mt-3">
