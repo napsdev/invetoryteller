@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 require 'vendor/autoload.php';
+require 'mail/class.phpmailer.php';
 use Mpdf\Mpdf;
 use App\Models\InvoicesModel;
 use App\Models\CustomerModel;
@@ -214,7 +215,112 @@ class PdfModel{
         $pdf->writeHtml($html, \Mpdf\HTMLParserMode::HTML_BODY);
         $pdf->Output('C_Cobro_' . $id . '.pdf', "I");
 
+        //Mail
+        $document = $pdf->Output('', "S");
+        $companyname = 'Sr.Córdoba';
+        $companyemail= 'cuenta_de_cobro@srcordobaadmin.com';
+        $mail = new \PHPMailer();
 
+        //data SMTP
+        $mail->isSMTP();
+        $mail->SMTPDebug = 2;
+        $mail->Host = 'smtp.hostinger.com';
+        $mail->Port = 587;
+        $mail->SMTPAuth = true;
+        $mail->Username = 'cuenta_de_cobro@srcordobaadmin.com';
+        $mail->Password = 'na9!aH/67V+DJH3';
+        $mail->addReplyTo($companyemail, $companyname);
+        $mail->setFrom($companyemail, $companyname);
+
+        //data Client
+        $mail->addAddress($customer['contact']);
+        $mail->Subject  =  "Cuenta de cobro";
+
+        $mail->WordWrap = 50;
+        $mail->IsHTML(true);
+        $mail->addStringAttachment($document, 'C_Cobro_' . $id . '.pdf');
+
+        $mail->Body = "
+                <html>
+                <head>
+                   <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+                   <title>Sr. Córdoba Studio</title>
+                    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet'>
+                   <style type='text/css'>
+                    a {color: #4A72AF;}
+                    body, #header h1, #header h2, p {margin: 0; padding: 0; font-family: 'Lato', sans-serif;
+                    font-weight: 300;}
+                    #main {border: 1px solid #cfcece;}
+                    img {display: block;}
+                    #top-message p, #bottom-message p {color: #3f4042; font-size: 12px; font-family: Arial, Helvetica, sans-serif; }
+                    #header h1 {color: #ffffff !important; font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', sans-serif; font-size: 24px; margin-bottom: 0!important; padding-bottom: 0; }
+                    #header h2 {color: #ffffff !important; font-family: Arial, Helvetica, sans-serif; font-size: 24px; margin-bottom: 0 !important; padding-bottom: 0; }
+                    #header p {color: #ffffff !important; font-family: 'Lucida Grande', 'Lucida Sans', 'Lucida Sans Unicode', sans-serif; font-size: 12px;  }
+                    h1, h2, h3, h4, h5, h6 {margin: 0 0 0.8em 0;}
+                    h3 {font-size: 28px; color: #444444 !important; font-family: 'Lato', sans-serif; font-weight: 300;}
+                    h4 {font-size: 22px; color: #575756 !important; font-family: 'Lato', sans-serif; font-weight: 300; }
+                    h5 {font-size: 18px; color: #444444 !important; font-family: 'Lato', sans-serif;  font-weight: 300;	}
+                    p {font-size: 16px; color: #444444 !important; font-family: 'Lato', sans-serif; ; line-height: 1.5;}
+                   </style>
+                </head>
+                <body>
+                <table width='100%' cellpadding='0' cellspacing='0' bgcolor='#e4e4e4'><tr><td>
+                    <table id='main' width='650' align='center' cellpadding='0' cellspacing='15' bgcolor='ffffff'>
+                        <tr>
+                            <td>
+                                <table id='header' cellpadding='10' cellspacing='0' align='center' bgcolor='#F0F0F0'>
+                                    <tr>
+                                        <td width='600'><img src='https://i.ibb.co/mBhp9vM/logo-srcordoba.png' alt='' style='width:250px ; max-width: 300px; height: auto; margin: auto; '></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id='content-6' cellpadding='0' cellspacing='0' align='center'>
+                                    <h4 align='center'>".$customer['name']."</h4>
+                                    <h4 align='center'>Gracias por comprar en Sr. Córdoba Studio.</h4>
+                                            <p align='center'>En este correo adjuntamos el comprobante de su compra.</p>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height='50px'>
+                            </td>	
+                        </tr>	
+                        <tr>
+                            <td>
+                                <table  cellpadding='10' cellspacing='0' align='center' bgcolor='#F0F0F0'>
+                                    <tr>
+                                        <td width='600'>
+                                            <h5 align='center'>Todo lo que necesite en insumos para el arte del tatuaje, </h5>
+                                            <h5 align='center'><strong>CONTÁCTENOS.</strong></h5>
+                                            <h3 align='center'>317 801 1898 - 316 813 0414
+                                            </h3>	
+                                        </td>
+                                    </tr>
+                                </table>
+                            <table  cellpadding='0' cellspacing='0'  style='margin: 30px 0px'>
+                                <tr >
+                                    <td colspan='2' width='400px' >
+                                    <p>Sr. Córdoba Studio 2021</p>
+                                    <p>Calle 4 # 16-13 Barrio San Pablo - Zipaquirá.</p>
+                                    </td>
+                                    <td width='100px'>
+                                        <a href='https://www.instagram.com/srcordobastudio/' target='_blank'><img src='https://i.ibb.co/CJS7pSc/instagram.png' style='width:30px'></a>
+                                    </td>	
+                                    <td width='100px'>
+                                        <a href='https://www.facebook.com/SrCordobaStudio' target='_blank'><img src='https://i.ibb.co/bs56XBP/facebook.png' style='width:30px'></a>
+                                    </td>
+                                    </tr>	
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td></tr></table>
+                </body>
+                </html>";
+        $mail->Send();
+        //mail end
     }
-
 }
