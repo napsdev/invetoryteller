@@ -1,8 +1,9 @@
 <?php
 namespace App\Models;
 require 'vendor/autoload.php';
-require 'mail/class.phpmailer.php';
 use Mpdf\Mpdf;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use App\Models\InvoicesModel;
 use App\Models\CustomerModel;
 use App\Models\PaymentMethodsModel;
@@ -213,24 +214,24 @@ class PdfModel{
         $css = file_get_contents(__DIR__ .'/../../public/css/pdf.css');
         $pdf->writeHtml($css, \Mpdf\HTMLParserMode::HEADER_CSS);
         $pdf->writeHtml($html, \Mpdf\HTMLParserMode::HTML_BODY);
-        $pdf->Output('C_Cobro_' . $id . '.pdf', "I");
-
+        
         //Mail
         $document = $pdf->Output('', "S");
-        $companyname = 'Sr.Córdoba';
-        $companyemail= 'cuenta_de_cobro@srcordobaadmin.com';
-        $mail = new \PHPMailer();
+        $companyname = $_ENV['COMPANY_NAME'];
+        $companyemail= $_ENV['MAIL_USERNAME'];
+        $mail = new PHPMailer(false);
 
         //data SMTP
         $mail->isSMTP();
-        $mail->SMTPDebug = 2;
-        $mail->Host = 'smtp.hostinger.com';
-        $mail->Port = 587;
-        $mail->SMTPAuth = true;
-        $mail->Username = 'cuenta_de_cobro@srcordobaadmin.com';
-        $mail->Password = 'na9!aH/67V+DJH3';
+        $mail->SMTPDebug = 0;
+        $mail->Host = $_ENV['MAIL_HOST'];
+        $mail->Port = $_ENV['MAIL_PORT'];
+        $mail->SMTPAuth = $_ENV['MAIL_SMTPAUTH'];
+        $mail->Username = $_ENV['MAIL_USERNAME'];
+        $mail->Password = $_ENV['MAIL_PASSWORD'];
         $mail->addReplyTo($companyemail, $companyname);
         $mail->setFrom($companyemail, $companyname);
+
 
         //data Client
         $mail->addAddress($customer['contact']);
@@ -320,7 +321,12 @@ class PdfModel{
                 </td></tr></table>
                 </body>
                 </html>";
-        $mail->Send();
+
+        if($customer['contact'] != ''){
+            $mail->send();
+        }
         //mail end
+
+        $pdf->Output('C_Cobro_' . $id . '.pdf', "I");
     }
 }
