@@ -28,6 +28,17 @@ $router->addRoute('GET', '/pdf/{id}', function ($id) {
     $controller->create($id);
 });
 
+//TABLES
+$router->addRoute('GET', '/table', function () {
+    $controller = new InvoicesController();
+    $controller->table();
+});
+
+$router->addRoute('POST', '/table', function () {
+    $controller = new InvoicesController();
+    $controller->table();
+});
+
 //MAIN
 $router->addRoute('GET', '/salidas', function () {
     $controller = new InvoicesController();

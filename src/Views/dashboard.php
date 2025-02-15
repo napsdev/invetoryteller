@@ -155,10 +155,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <div class="row mb-3 mt-3">
     <div class="col-12">
-        <form action="">
+        <form action="<?= $_ENV['BASE_URL_PATH']?>/table" method="post" target="_blank">
             <div class="form-group">
                 <label for="search">GANANCIA Y VENTA POR DÍA</label>
-                <input type="date" class="form-control" id="search" name="search">
+                <input type="date" class="form-control" id="search" name="search" required="required">
                 <button type="submit" class="btn btn-success mt-3">BUSCAR</button>
             </div>
         </form>
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <div class="row mb-3 mt-3">
     <div class="col-12">
-        <form action="">
+        <form action="<?= $_ENV['BASE_URL_PATH']?>/table" method="get" target="_blank">
             <div class="form-group">
                 <button type="submit" class="btn btn-primary mt-3">UBICACIÓN DEL DINERO</button>
             </div>

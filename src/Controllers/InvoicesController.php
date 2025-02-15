@@ -26,6 +26,18 @@ class InvoicesController
         require_once __DIR__ . '/../Views/invoices.php';
     }
 
+    public function table()
+    {
+    if (isset($_POST['search']) && !empty($_POST['search'])) {
+        $search = $_POST['search'];
+        $tablesearch = $this->InvoicesModel->search($search);
+    } else {
+        $table = $this->InvoicesModel->table();
+    }
+
+    require_once __DIR__ . '/../Views/table.php';
+    }
+
     public function cancel()
     {
         $id = $_POST['id'] ?? null;
