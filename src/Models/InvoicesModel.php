@@ -111,6 +111,50 @@ class InvoicesModel
         }
     }
 
+    public function charts() {
+        try {
+            $query = "SELECT 
+                DATE_FORMAT(i.date, '%Y-%m') AS mes,
+                SUM(i.total - COALESCE(envio_valor, 0)) AS total_neto,
+                SUM(i.revenue) as total_revenue
+                FROM 
+                    invoices i
+                JOIN 
+                    paymentmethods pm ON i.paymentmethods_id = pm.id
+                LEFT JOIN (
+                    SELECT 
+                        id,
+                        JSON_EXTRACT(products, CONCAT('$[', idx - 1, '].sales_price')) AS envio_valor
+                    FROM 
+                        invoices,
+                        JSON_TABLE(
+                            products,
+                            '$[*]' 
+                            COLUMNS (
+                                idx FOR ORDINALITY,
+                                name VARCHAR(100) PATH '$.name'
+                            )
+                        ) AS jt
+                    WHERE 
+                        jt.name = 'Envio'
+                ) AS envio ON i.id = envio.id
+                WHERE 
+                    YEAR(i.date) = YEAR(CURDATE())
+                AND
+                i.status = 1
+                GROUP BY 
+                    mes
+                ORDER BY 
+                    mes";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
     public function create($customer_id,$name,$contact,$products,$pending_call,$paymentmethods_id,$OptionCustomerSelect, $trackingcode)
     {
         $message = "";

@@ -16,6 +16,7 @@ class DashboardController
     {
         $table = $this->InvoicesModel->list();
         $tableProducts = $this->ProductsModel->list();
+        $chart = $this->InvoicesModel->charts();
         require_once __DIR__ . '/../Views/dashboard.php';
     }
 }

@@ -69,7 +69,17 @@
 <div class="row mb-3">
     <div class="col-12">
         <div class="card p-4 shadow-sm" style="height: 400px;">
-            <h3 class="text-center mb-4">GANANCIAS XXX</h3>
+            <h3 class="text-center mb-4">GANANCIAS 
+            <?php
+            if (!empty($chart)) {
+                $totalRevenue = 0; 
+                foreach ($chart as $row) {
+                    $totalRevenue += $row['total_revenue']; 
+                }
+                echo formatThousands($totalRevenue); 
+            }
+            ?>
+            </h3>
             <div style="height: 100%;">
                 <canvas id="revenue"></canvas>
             </div>
@@ -79,7 +89,17 @@
 <div class="row">
     <div class="col-12">
         <div class="card p-4 shadow-sm" style="height: 400px;">
-            <h3 class="text-center mb-4">VENTAS XXX</h3>
+        <h3 class="text-center mb-4">VENTAS 
+            <?php
+            if (!empty($chart)) {
+                $totalRevenue = 0; 
+                foreach ($chart as $row) {
+                    $totalRevenue += $row['total_neto']; 
+                }
+                echo formatThousands($totalRevenue); 
+            }
+            ?>
+            </h3>
             <div style="height: 100%;">
                 <canvas id="total"></canvas>
             </div>
@@ -89,16 +109,34 @@
 
 <script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/chart.js"></script>
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     var ctx = document.getElementById('revenue').getContext('2d');
     var revenue = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            labels: [
+            <?php if (!empty($chart)): ?>
+            <?php $count = count($chart); ?>
+            <?php $i = 0; ?>
+            <?php foreach ($chart as $row): ?>
+                '<?= htmlspecialchars($row['mes']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
+            <?php endforeach; ?>
+            <?php endif; ?>
+                ],
             datasets: [{
                 label: 'Ventas',
-                data: [0, 19, 3, 5, 2, 3, 20, 10, 15, 5, 10, 15],
+                data: [
+                    <?php if (!empty($chart)): ?>
+                    <?php $count = count($chart); ?>
+                    <?php $i = 0; ?>
+                    <?php foreach ($chart as $row): ?>
+                        '<?= htmlspecialchars($row['total_revenue']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    ],
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 2,
@@ -125,10 +163,26 @@ document.addEventListener("DOMContentLoaded", function () {
     var total = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            labels: [
+            <?php if (!empty($chart)): ?>
+            <?php $count = count($chart); ?>
+            <?php $i = 0; ?>
+            <?php foreach ($chart as $row): ?>
+                '<?= htmlspecialchars($row['mes']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
+            <?php endforeach; ?>
+            <?php endif; ?>
+                ],
             datasets: [{
                 label: 'Ventas',
-                data: [0, 19, 3, 5, 2, 3, 20, 10, 15, 5, 10, 15],
+                data: [
+                    <?php if (!empty($chart)): ?>
+                    <?php $count = count($chart); ?>
+                    <?php $i = 0; ?>
+                    <?php foreach ($chart as $row): ?>
+                        '<?= htmlspecialchars($row['total_neto']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    ],
                 backgroundColor: 'rgba(54, 235, 126, 0.2)',
                 borderColor: 'rgb(0, 255, 47)',
                 borderWidth: 2,
