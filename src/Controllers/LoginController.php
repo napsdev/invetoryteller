@@ -22,6 +22,7 @@ class LoginController
                         session_start();
                         $_SESSION['user_id'] = $userAUTH['id'];
                         $_SESSION['username'] = $userAUTH['username'];
+                        $_SESSION['logged_in'] = true;
 
                         header('Location: '.$_ENV['BASE_URL_PATH'].'/salidas');
                         exit;

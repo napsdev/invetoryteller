@@ -1,9 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header('Location: '.$_ENV['BASE_URL_PATH'].'/login');
-    exit;
-}
 function formatThousands($number)
 {
     return (intval($number) == $number) ? number_format($number, 0, '', ',') : number_format($number, 2, '.', ',');
