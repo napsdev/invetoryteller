@@ -155,6 +155,53 @@ class InvoicesModel
         }
     }
 
+    public function chartrevenue() {
+        try {
+            $query = "SELECT 
+                        revenue_by_month.month,
+                        IFNULL(revenue_by_month.total_revenue, 0) - IFNULL(expenses_by_month.total_expenses, 0) AS net_income
+                        FROM 
+                        (SELECT 
+                        DATE_FORMAT(date, '%Y-%m') AS month,
+                        SUM(revenue) AS total_revenue
+                        FROM invoices
+                        WHERE invoices.status = 1 
+                        GROUP BY month) AS revenue_by_month
+                        LEFT JOIN 
+                        (SELECT 
+                        DATE_FORMAT(date, '%Y-%m') AS month,
+                        SUM(amount) AS total_expenses
+                        FROM expenses
+                        GROUP BY month) AS expenses_by_month
+                        ON revenue_by_month.month = expenses_by_month.month
+                        UNION
+                        SELECT 
+                        expenses_by_month.month,
+                        IFNULL(revenue_by_month.total_revenue, 0) - IFNULL(expenses_by_month.total_expenses, 0) AS net_income
+                        FROM 
+                        (SELECT 
+                        DATE_FORMAT(date, '%Y-%m') AS month,
+                        SUM(revenue) AS total_revenue
+                        FROM invoices
+                        WHERE invoices.status = 1 
+                        GROUP BY month) AS revenue_by_month
+                        RIGHT JOIN 
+                        (SELECT 
+                        DATE_FORMAT(date, '%Y-%m') AS month,
+                        SUM(amount) AS total_expenses
+                        FROM expenses
+                        GROUP BY month) AS expenses_by_month
+                        ON revenue_by_month.month = expenses_by_month.month;
+                        ";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
     public function create($customer_id,$name,$contact,$products,$pending_call,$paymentmethods_id,$OptionCustomerSelect, $trackingcode)
     {
         $message = "";

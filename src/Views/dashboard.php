@@ -70,12 +70,12 @@
 <div class="row mb-3">
     <div class="col-12">
         <div class="card p-4 shadow-sm" style="height: 400px;">
-            <h3 class="text-center mb-4">GANANCIAS 
+            <h3 class="text-center mb-4">GANANCIAS (-GASTOS)
             <?php
-            if (!empty($chart)) {
+            if (!empty($chartrevenue)) {
                 $totalRevenue = 0; 
-                foreach ($chart as $row) {
-                    $totalRevenue += $row['total_revenue']; 
+                foreach ($chartrevenue as $row) {
+                    $totalRevenue += $row['net_income']; 
                 }
                 echo formatThousands($totalRevenue); 
             }
@@ -119,22 +119,22 @@ document.addEventListener("DOMContentLoaded", function () {
         type: 'line',
         data: {
             labels: [
-            <?php if (!empty($chart)): ?>
-            <?php $count = count($chart); ?>
+            <?php if (!empty($chartrevenue)): ?>
+            <?php $count = count($chartrevenue); ?>
             <?php $i = 0; ?>
-            <?php foreach ($chart as $row): ?>
-                '<?= htmlspecialchars($row['mes']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
+            <?php foreach ($chartrevenue as $row): ?>
+                '<?= htmlspecialchars($row['month']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
             <?php endforeach; ?>
             <?php endif; ?>
                 ],
             datasets: [{
                 label: 'Ventas',
                 data: [
-                    <?php if (!empty($chart)): ?>
-                    <?php $count = count($chart); ?>
+                    <?php if (!empty($chartrevenue)): ?>
+                    <?php $count = count($chartrevenue); ?>
                     <?php $i = 0; ?>
-                    <?php foreach ($chart as $row): ?>
-                        '<?= htmlspecialchars($row['total_revenue']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
+                    <?php foreach ($chartrevenue as $row): ?>
+                        '<?= htmlspecialchars($row['net_income']) ?>'<?= (++$i < $count) ? ',' : ''; ?> 
                     <?php endforeach; ?>
                     <?php endif; ?>
                     ],
