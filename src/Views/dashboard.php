@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="col-12">
         <form action="<?= $_ENV['BASE_URL_PATH']?>/table" method="post" target="_blank">
             <div class="form-group">
-                <label for="search">GANANCIA Y VENTA POR DÍA</label>
+                <label for="search">GANANCIA Y VENTA POR DÍA (SIN CONTAR GASTOS)</label>
                 <input type="date" class="form-control" id="search" name="search" required="required">
                 <button type="submit" class="btn btn-success mt-3">BUSCAR</button>
             </div>
