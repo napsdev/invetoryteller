@@ -13,5 +13,10 @@ class PdfController
     {
         $this->PdfModel->create($id);
     }
-
+    
+    public function search()
+    {
+        $id = $_POST['id'] ?? '';
+        $this->PdfModel->search($id);
+    }
 }

@@ -37,6 +37,12 @@ $router->addRoute('GET', '/pdf/{id}', function ($id) {
     $controller->create($id);
 });
 
+$router->addRoute('POST', '/pdf', function () {
+    checkAuth();
+    $controller = new PdfController();
+    $controller->search();
+});
+
 //TABLES
 $router->addRoute('GET', '/table', function () {
     checkAuth();

@@ -25,7 +25,8 @@
                                 <p class="card-text">Cod. <?= htmlspecialchars($row['trackingcode']) ?></p>
                             
                                 <div class="btn-group" role="group" aria-label="Acciones" id="actionsinvoice">
-                                    <form action="<?= $_ENV['BASE_URL_PATH']?>/pdf/<?= $row['id'] ?>" method="get" target="_blank">
+                                    <form action="<?= $_ENV['BASE_URL_PATH']?>/pdf" method="post" target="_blank">
+                                        <input type="text" name="id" value="<?= $row['id'] ?>" hidden>
                                         <button type="submit" class="btn btn-primary">Ver</button>
                                     </form>
                                     <form action="<?= $_ENV['BASE_URL_PATH']?>/salidas/anular" method="post">
@@ -261,7 +262,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td><?= htmlspecialchars(($row['pending_call']) == 2 ? "N/A" : "PENDIENTE") ?></td>
                 <td>
                 <div class="btn-group" role="group" aria-label="Acciones" id="actionsinvoice">
-                    <form action="<?= $_ENV['BASE_URL_PATH']?>/pdf/<?= $row['id'] ?>" method="get" target="_blank">
+                    <form action="<?= $_ENV['BASE_URL_PATH']?>/pdf" method="post" target="_blank">
+                        <input type="text" name="id" value="<?= $row['id'] ?>" hidden>
                         <button type="submit" class="btn btn-primary">Ver</button>
                     </form>
                     <form action="<?= $_ENV['BASE_URL_PATH']?>/salidas/anular" method="post">
@@ -271,6 +273,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     <form action="<?= $_ENV['BASE_URL_PATH']?>/salidas/aprobar" method="post">
                         <input type="text" name="id" value="<?= $row['id'] ?>" hidden>
                         <button type="submit" class="btn btn-success">AP</button>
+                    </form>
+                    <form action="<?= $_ENV['BASE_URL_PATH']?>/pdf/<?= $row['id'] ?>" method="get" target="_blank">
+                                        <button type="submit" class="btn btn-primary">ENV</button>
                     </form>
                 </div>
                 </td>
