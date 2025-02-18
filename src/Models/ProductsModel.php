@@ -11,7 +11,7 @@ class ProductsModel
         $dbInstance = new Database();
         $this->db = $dbInstance->getConnection();
     }
-    public function update($id,$name,$purchase_price,$sales_price,$amount,$barcod)
+    public function update($id,$name,$purchase_price,$sales_price,$amount,$barcod,$cartridge,$cartridgevalue)
     {
         $message = "";
         $name = trim($name);
@@ -30,18 +30,29 @@ class ProductsModel
         if (!is_numeric($amount) || $amount < 0) {
             $message = "La cantidad debe ser un número entero positivo.";
         }
+        if (!is_numeric($cartridgevalue) || $cartridgevalue < 0) {
+            $message = "El valor del cartucho debe ser un número entero positivo.";
+        }
+        if (isset($cartridge)){
+            $cartridge = 1;
+        }else{
+            $cartridge = 2;
+        }
+
         if (!empty($message)) {
             return $message;
         } else {
             try {
-                $stmt = $this->db->prepare("UPDATE products SET name=:name,purchase_price=:purchase_price,sales_price=:sales_price,amount=:amount,amount=:amount,barcod=:barcod WHERE id=:id");
+                $stmt = $this->db->prepare("UPDATE products SET name=:name,purchase_price=:purchase_price,sales_price=:sales_price,amount=:amount,amount=:amount,barcod=:barcod,cartridge=:cartridge,cartridgevalue=:cartridgevalue WHERE id=:id");
                 $stmt->execute([
                     'id' => $id,
                     'name' => $name,
                     'purchase_price' => (float)$purchase_price,
                     'sales_price' => (float)$sales_price,
                     'amount' => (int)$amount,
-                    'barcod' =>$barcod
+                    'barcod' =>$barcod,
+                    'cartridge' => $cartridge,
+                    'cartridgevalue' => (int)$cartridgevalue
                 ]);
                 return 'Actualizado correctamente.';
             } catch (PDOException $e) {
@@ -53,7 +64,7 @@ class ProductsModel
 
     public function list() {
         try {
-            $query = "SELECT id,name,purchase_price,sales_price,revenue,amount,barcod FROM products order by id desc";
+            $query = "SELECT id,name,purchase_price,sales_price,revenue,amount,barcod,cartridge,cartridgevalue FROM products order by id desc";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
 
@@ -63,7 +74,7 @@ class ProductsModel
             return "Error en la consulta";
         }
     }
-    public function create($name,$purchase_price,$sales_price,$amount,$barcod)
+    public function create($name,$purchase_price,$sales_price,$amount,$barcod,$cartridge,$cartridgevalue)
     {
         $message = "";
         $name = trim($name);
@@ -82,17 +93,27 @@ class ProductsModel
         if (!is_numeric($amount) || $amount < 0) {
             $message = "La cantidad debe ser un número entero positivo.";
         }
+        if (!is_numeric($cartridgevalue) || $cartridgevalue < 0) {
+            $message = "El valor del cartucho debe ser un número entero positivo.";
+        }
+        if (isset($cartridge)){
+            $cartridge = 1;
+        }else{
+            $cartridge = 2;
+        }
         if (!empty($message)){
             return $message;
         }else{
             try {
-                $stmt = $this->db->prepare("INSERT INTO products (name,purchase_price,sales_price,amount,barcod) VALUES (:name,:purchase_price,:sales_price,:amount,:barcod)");
+                $stmt = $this->db->prepare("INSERT INTO products (name,purchase_price,sales_price,amount,barcod,cartridge,cartridgevalue) VALUES (:name,:purchase_price,:sales_price,:amount,:barcod,:cartridge,:cartridgevalue)");
                 $stmt->execute([
                     'name' => $name,
                     'purchase_price' => (int)$purchase_price,
                     'sales_price' => (int)$sales_price,
                     'amount' => (int)$amount,
-                    'barcod' =>$barcod
+                    'barcod' =>$barcod,
+                    'cartridge' => $cartridge,
+                    'cartridgevalue' => (int)$cartridgevalue
                 ]);
                 return "Creado con exito: ".$name;
             } catch (PDOException $e) {
@@ -161,7 +182,7 @@ class ProductsModel
         }
 
         try {
-            $stmt = $this->db->prepare("SELECT id,name,purchase_price,sales_price,revenue,amount FROM products WHERE id = :id");
+            $stmt = $this->db->prepare("SELECT id,name,purchase_price,sales_price,revenue,amount,cartridge,cartridgevalue FROM products WHERE id = :id");
             $stmt->execute([
                 'id' => $id
             ]);

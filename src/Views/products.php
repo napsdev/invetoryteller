@@ -28,6 +28,18 @@
                 <label for="barcod">Cod, Barras</label>
                 <input type="text" class="form-control" id="barcod" name="barcod" value="NA">
             </div>
+            <div class="form-group">
+            <label for="cartridge">Cartucho (Check):</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="cartridge" name="cartridge">
+                    </div>
+                </div>
+                <input type="number" class="form-control" id="cartridgevalue" name="cartridgevalue" value="0" required min="0">
+            </div>
+        </div>
+
             <button type="submit" class="btn btn-primary btn-block">Registrar</button>
         </form>
     </div>
@@ -43,6 +55,8 @@
             <th>Ganancia</th>
             <th>Cantidad</th>
             <th>Cod. Barras</th>
+            <th>Cartucho</th>
+            <th>Val. Caja</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -55,6 +69,8 @@
                 <td><?= htmlspecialchars(formatThousands($row['revenue'])) ?></td>
                 <td><?= htmlspecialchars(formatThousands($row['amount'])) ?></td>
                 <td><?= htmlspecialchars($row['barcod']) ?></td>
+                <td><?= htmlspecialchars(($row['cartridge'] == 1) ? "SI" : (($row['cartridge'] == 2) ? "NO" : "ERROR")) ?></td>
+                <td><?= htmlspecialchars(formatThousands($row['cartridgevalue'])) ?></td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Acciones">
                         <button type="button" class="btn btn-danger" onclick="deleteProduct(<?=$row['id']?>)">Eliminar</button>
@@ -113,6 +129,10 @@
         document.getElementById('purchase_price').value = Product.purchase_price || 0;
         document.getElementById('sales_price').value = Product.sales_price || 0;
         document.getElementById('amount').value = Product.amount || 0;
+
+       document.getElementById('cartridge').checked = (Product.cartridge === 1);
+
+        document.getElementById('cartridgevalue').value = Product.cartridgevalue || 0;
 
         const form = document.querySelector('form[action*="productos/"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/productos/update";

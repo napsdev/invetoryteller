@@ -17,7 +17,9 @@ barcod VARCHAR(255) NOT NULL,
 purchase_price DECIMAL(10, 2) NOT NULL,
 sales_price DECIMAL(10, 2) NOT NULL,
 revenue DECIMAL(10, 2) AS (sales_price - purchase_price) STORED,
-amount INT NOT NULL
+amount INT NOT NULL,
+cartridge BOOLEAN DEFAULT FALSE,
+cartridgevalue DECIMAL(10, 2) DEFAULT 0.00
 );
 
 -- Create the customers table

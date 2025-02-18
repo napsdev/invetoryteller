@@ -22,8 +22,11 @@ class ProductsController
         $purchase_price = $_POST['purchase_price'] ?? 0;
         $sales_price = $_POST['sales_price'] ?? 0;
         $amount = $_POST['amount'] ?? 0;
+        $cartridgevalue = $_POST['cartridgevalue'] ?? null;
+        $cartridge = $_POST['cartridge'] ?? null;
+
         if ($id) {
-            $message = $this->ProductsModel->update($id,$name,$purchase_price,$sales_price,$amount,$barcod);
+            $message = $this->ProductsModel->update($id,$name,$purchase_price,$sales_price,$amount,$barcod,$cartridge,$cartridgevalue);
         } else {
             $message = 'ID no proporcionado.';
         }
@@ -36,7 +39,12 @@ class ProductsController
         $purchase_price = $_POST['purchase_price'] ?? null;
         $sales_price = $_POST['sales_price'] ?? null;
         $amount = $_POST['amount'] ?? null;
-        $message = $this->ProductsModel->create($name,$purchase_price,$sales_price,$amount,$barcod);
+        
+        $cartridgevalue = $_POST['cartridgevalue'] ?? null;
+        $cartridge = $_POST['cartridge'] ?? null;
+
+
+        $message = $this->ProductsModel->create($name,$purchase_price,$sales_price,$amount,$barcod,$cartridge,$cartridgevalue);
 
         header('Location: '.$_ENV['BASE_URL_PATH'].'/productos?message='.urlencode($message));
     }
