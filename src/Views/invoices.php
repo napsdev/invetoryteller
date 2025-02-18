@@ -15,7 +15,7 @@
                 <select class="selectpicker" data-live-search="true" id="product_id" name="product_id">
                     <?php if (!empty($listProducts)): ?>
                         <?php foreach ($listProducts as $row): ?>
-                            <option value="<?= htmlspecialchars($row['id']) ?>" data-price="<?= htmlspecialchars($row['sales_price'])?>"><?= htmlspecialchars($row['name'])." - ".htmlspecialchars($row['barcod'])?></option>
+                            <option value="<?= htmlspecialchars($row['id']) ?>" data-cartridge="<?= htmlspecialchars($row['cartridge'])?>" data-cartridgevalue="<?= htmlspecialchars($row['cartridgevalue'])?>" data-price="<?= htmlspecialchars($row['sales_price'])?>"><?= htmlspecialchars($row['name'])." - ".htmlspecialchars($row['barcod'])?></option>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
