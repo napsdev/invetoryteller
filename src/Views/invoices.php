@@ -15,8 +15,12 @@
                 <select class="selectpicker" data-live-search="true" id="product_id" name="product_id">
                     <?php if (!empty($listProducts)): ?>
                         <?php foreach ($listProducts as $row): ?>
-                            <option value="<?= htmlspecialchars($row['id']) ?>" data-cartridge="<?= htmlspecialchars($row['cartridge'])?>" data-cartridgevalue="<?= htmlspecialchars($row['cartridgevalue'])?>" data-price="<?= htmlspecialchars($row['sales_price'])?>"><?= htmlspecialchars($row['name'])." - ".htmlspecialchars($row['barcod'])?></option>
-                        <?php endforeach; ?>
+                            <option value="<?= htmlspecialchars($row['id']) ?>" 
+                            data-cartridge="<?= htmlspecialchars(($row['cartridge'] == 1) ? 1 : (($row['cartridge'] == 2) ? 0 : 0))?>" 
+                            data-cartridgevalue="<?= htmlspecialchars(($row['cartridge'] == 1) ? $row['cartridgevalue'] : $row['sales_price'])?>" 
+                            data-price="<?= htmlspecialchars($row['sales_price'])?>">
+                            <?= htmlspecialchars($row['name'])." - ".htmlspecialchars($row['barcod'])?></option>
+                        <?php endforeach;?>
                     <?php endif; ?>
                 </select>
             </div>
@@ -90,6 +94,7 @@
         <h3 class="text-center mb-4">VALORES</h3>
         <h3 class="text-left mb-4" id="totalSend"></h3>
         <h3 class="text-left mb-4" id="totalProducts"></h3>
+        <h3 class="text-left mb-4" id="cartridgeSum"></h3>
         <h3 class="text-left mb-4" id="totalSum"></h3>
     </div>
     </div>

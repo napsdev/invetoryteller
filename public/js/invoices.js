@@ -59,6 +59,7 @@ document.addEventListener("keydown", function (event) {
 let products = [];
 let totalSum = 0;
 let totalSend = 0;
+let cartridgeSum = 0;
 
 const productSelect = document.getElementById("product_id");
 const amountInput = document.getElementById("amount");
@@ -68,37 +69,61 @@ const paymentMethodsSelect = document.getElementById("paymentmethods_id");
 const totalSendElement = document.getElementById("totalSend");
 const totalProductsElement = document.getElementById("totalProducts");
 const totalSumElement = document.getElementById("totalSum");
-
+const cartridgeSumElement = document.getElementById("cartridgeSum");
 
 addProductButton.addEventListener("click", () => {
     if (amountInput.value <= 0) {
         alert("Por favor selecciona una cantidad mayor a 0.");
         return;
     }
+
     const productId = productSelect.value;
     const productName = productSelect.options[productSelect.selectedIndex].text;
     const productPrice = parseFloat(productSelect.options[productSelect.selectedIndex].dataset.price);
+    const cartridgeValue = parseFloat(productSelect.options[productSelect.selectedIndex].dataset.cartridgevalue);
+    const cartridgeAmount = parseInt(productSelect.options[productSelect.selectedIndex].dataset.cartridge, 10);
     const amount = parseInt(amountInput.value, 10);
+
     if (!productId || amount <= 0 || isNaN(productPrice)) {
         alert("Por favor selecciona un producto válido, una cantidad mayor a 0 y un precio correcto.");
         return;
     }
+
     const existingProduct = products.find(product => product.id === productId);
     if (existingProduct) {
         existingProduct.amount += amount;
         existingProduct.total = existingProduct.amount * existingProduct.price;
     } else {
-        const totalPrice = productPrice * amount;
-        products.push({ id: productId, name: productName, price: productPrice, amount: amount, total: totalPrice });
+        let finalPrice = productPrice;
+
+        const totalPrice = finalPrice * amount;
+        products.push({ id: productId, name: productName, price: finalPrice, cartridge: cartridgeAmount, amount, total: totalPrice, cartridgeValue });
     }
-    totalSum = products.reduce((sum, product) => sum + product.total, 0);
+
+    updateCartridgeSum();
     updateProductList();
     calculateTotalSend();
 });
 
-paymentMethodsSelect.addEventListener("change", () => {
-    calculateTotalSend();
-});
+function updateCartridgeSum() {
+    cartridgeSum = products.reduce((sum, product) => sum + (product.cartridge * product.amount), 0);
+    
+    if (cartridgeSum === 10) {
+        products.forEach(product => {
+            product.price = product.cartridgeValue;
+            product.total = product.amount * product.price;
+        });
+    } else {
+
+        products.forEach(product => {
+            const originalPrice = parseFloat(productSelect.querySelector(`option[value="${product.id}"]`).dataset.price);
+            product.price = originalPrice;
+            product.total = product.amount * product.price;
+        });
+    }
+
+    cartridgeSumElement.innerHTML = `Cartuchos: ${cartridgeSum}`;
+}
 
 function updateProductList() {
     productList.innerHTML = "";
@@ -107,7 +132,6 @@ function updateProductList() {
         listItem.className = "list-group-item d-flex justify-content-between align-items-center";
         listItem.innerHTML = `
             <div class="w-100">
-                <!-- Información del producto -->
                 <div class="text-left">
                     <strong>${product.name}</strong><br>
                     <small class="text-muted">
@@ -115,8 +139,6 @@ function updateProductList() {
                         Total: $${product.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </small>
                 </div>
-
-                <!-- Controles de cantidad y eliminar -->
                 <div class="d-flex justify-content-center align-items-center mt-2">
                     <button class="btn btn-outline-secondary btn-sm mr-2" onclick="updateAmount(${index}, -1)">&#8722;</button>
                     <span class="font-weight-bold mx-2">${product.amount.toLocaleString()}</span>
@@ -124,29 +146,50 @@ function updateProductList() {
                     <button class="btn btn-danger btn-sm ml-3" onclick="removeProduct(${index})">X</button>
                 </div>
             </div>
-            `;
+        `;
 
         productList.appendChild(listItem);
     });
+
+    updateCartridgeSum();
 }
 
 function calculateTotalSend() {
+    // Asegurar que totalSum se actualiza correctamente
+    totalSum = products.reduce((sum, product) => sum + product.total, 0);
+
     const selectedOption = paymentMethodsSelect.options[paymentMethodsSelect.selectedIndex];
+
+    if (!selectedOption || !selectedOption.dataset.price) {
+        totalSendElement.innerHTML = "Método de pago: $0.00";
+        totalProductsElement.innerHTML = `Productos: $${totalSum.toFixed(2)}`;
+        totalSumElement.innerHTML = `Total: $${totalSum.toFixed(2)}`;
+        return;
+    }
+
     const dataPrice = parseFloat(selectedOption.dataset.price) || 0;
     const dataPercentage = parseFloat(selectedOption.dataset.percentage) || 0;
     const percentageValue = (totalSum * dataPercentage) / 100;
+
     totalSend = dataPrice + percentageValue;
-    total = totalSum + dataPrice + percentageValue;
-    totalSendElement.innerHTML = `Metodo de pago: $${totalSend.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    total = totalSum + totalSend;
+
+    // Mostrar valores actualizados
+    totalSendElement.innerHTML = `Método de pago: $${totalSend.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     totalProductsElement.innerHTML = `Productos: $${totalSum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     totalSumElement.innerHTML = `Total: $${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
+
+// Asegurar que se ejecuta cuando cambia el método de pago
+paymentMethodsSelect.addEventListener("change", calculateTotalSend);
+
+
 
 function updateAmount(index, change) {
     if (products[index].amount + change > 0) {
         products[index].amount += change;
         products[index].total = products[index].amount * products[index].price;
-        totalSum = products.reduce((sum, product) => sum + product.total, 0);
+        updateCartridgeSum();
         updateProductList();
         calculateTotalSend();
     } else {
@@ -155,12 +198,11 @@ function updateAmount(index, change) {
 }
 
 function removeProduct(index) {
-    totalSum -= products[index].total;
     products.splice(index, 1);
+    updateCartridgeSum();
     updateProductList();
     calculateTotalSend();
 }
-
 //Preview logic end
 
 
