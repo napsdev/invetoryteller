@@ -12,6 +12,7 @@ use App\Controllers\CustomerController;
 use App\Controllers\ExpensesController;
 use App\Controllers\SuppliersController;
 use App\Controllers\PdfController;
+use App\Controllers\MigrateController;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -27,6 +28,13 @@ function checkAuth() {
 
 $router->addRoute('GET', '/', function () {
     header('Location: '.$_ENV['BASE_URL_PATH'].'/login');
+});
+
+//Migrate old-database to new-database
+$router->addRoute('GET', '/migrate', function () {
+    checkAuth();
+    $controller = new MigrateController();
+    $controller->migrate();
 });
 
 
