@@ -55,7 +55,7 @@ class MigrateModel
                 $sales_price = $p['precio_venta'];
                 $amount = 0;
                 $barcod = $p['id'];
-                $cartridge = 2;
+                $cartridge = '';
                 $cartridgevalue = 0;
 
                 echo ($this->productsInstance->create($name,$purchase_price,$sales_price,$amount,$barcod,$cartridge,$cartridgevalue))."<br>";
