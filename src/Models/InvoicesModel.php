@@ -346,10 +346,15 @@ class InvoicesModel
             if(empty(trim($name)) || empty(trim($contact))){
                 $message = 'El nombre del cliente o el correo no puede estar vacio.';
             }else{
+                $customer_exists = $this->customersInstance->getByContact($contact);
+                if (!empty($customer_exists) && is_array($customer_exists)) {
+                    $customer_id = $customer_exists[0]['id'];
+                } else {
                 $customer_id = $this->customersInstance->create($name,$phone,$address,$document,$contact);
                 if (!is_numeric($customer_id)) {
                     $message = 'Error al crear el cliente.';
                 }
+            }
             }
         } else {
             if(!is_numeric(($customer_id))){

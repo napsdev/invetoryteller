@@ -12,6 +12,20 @@ class CustomerModel
         $this->db = $dbInstance->getConnection();
     }
 
+    public function getByContact($contact)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT id, name, phone, address, document, contact FROM customers WHERE contact LIKE :contact");
+            $stmt->execute([
+                'contact' => "%$contact%"
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return "Error en la consulta";
+        }
+    }
+
     public function update($id, $name, $phone, $address, $document, $contact)
     {
         $message = "";
