@@ -210,7 +210,6 @@ class InvoicesModel
             $phone = 'N/A';
             $address = 'N/A';
             $document = 'N/A';
-
             if(empty(trim($name)) || empty(trim($contact))){
                 $message = 'El nombre del cliente o el correo no puede estar vacio.';
             }else{
@@ -224,50 +223,75 @@ class InvoicesModel
                 $message = 'Debe seleccionar un cliente.';
             }
         }
-        if (!empty($message)){
-            return $message;
-        }
+
         if (!empty($products)) {
             $total = 0;
             $revenue = 0;
+            $discount = 0;
             $productsArray = [];
-            
+
+            $countcartridge = 0;
+            foreach ($products as $product) {
+                if ($product['cartridge'] == 1) {
+                    $countcartridge += $product['amount']; 
+                }
+            }
+
             foreach ($products as $product) {
                 $productinfo = $this->productInstance->get($product['id']);
                 $this->productInstance->updateAmount($product['id'], -abs($product['amount']));
-
                 if (!empty($productinfo) && is_array($productinfo)) {
                     $productData = $productinfo[0];
-                    $total += $productData['sales_price'] * $product['amount'];
-                    $revenue += $productData['revenue'] * $product['amount'];
-
-                    $productsArray[] = [
-                        'id' => $productData['id'],
-                        'name' => $productData['name'],
-                        'sales_price' => $productData['sales_price'],
-                        'amount' => $product['amount'],
-                    ];
-                }
-
-            }
-
-            $paymentmethod_info = $this->paymentMethodsInstance->get($paymentmethods_id);
-                if (!empty($paymentmethod_info) && is_array($paymentmethod_info)) {
-                    $paymentmethodData = $paymentmethod_info[0];
-                    if ($paymentmethodData['percentage'] == 0) {
-                    $shipping = $paymentmethodData['value_added'];
-                    } else {
-                    $shipping = ($total*($paymentmethodData['percentage']/100))+$paymentmethodData['value_added'];
+                    
+                    if($countcartridge >= 10 && $productData['cartridge'] == 1){
+                        $total += $productData['cartridgevalue'] * $product['amount'];
+                        $revenue += ($productData['cartridgevalue'] - $productData['purchase_price'])* $product['amount'];
+                        $discount +=  ($productData['cartridgevalue']*$product['amount']) - ($productData['sales_price']*$product['amount']);
+                        $productsArray[] = [
+                            'id' => $productData['id'],
+                            'name' => $productData['name'],
+                            'sales_price' => $productData['sales_price'],
+                            'amount' => $product['amount'],
+                        ];
+                    }else{   
+                        $total += $productData['sales_price'] * $product['amount'];
+                        $revenue += $productData['revenue'] * $product['amount'];  
+                        $productsArray[] = [
+                            'id' => $productData['id'],
+                            'name' => $productData['name'],
+                            'sales_price' => $productData['sales_price'],
+                            'amount' => $product['amount'],
+                        ];  
                     }
                 }
+            }
+            $paymentmethod_info = $this->paymentMethodsInstance->get($paymentmethods_id);
+            if (!empty($paymentmethod_info) && is_array($paymentmethod_info)) {
+                $paymentmethodData = $paymentmethod_info[0];
+                if ($paymentmethodData['percentage'] == 0) {
+                    $shipping = $paymentmethodData['value_added'];
+                } else {
+                    $shipping = ($total*($paymentmethodData['percentage']/100))+$paymentmethodData['value_added'];
+                }
+            }
+            
+            if($discount < 0){
+                $productsArray[] = [
+                    'id' => '#',
+                    'name' => 'Descuento por caja de cartuchos',
+                    'sales_price' => $discount,
+                    'amount' => 1,
+                ];
+            }
 
+            if($shipping > 0){
                 $productsArray[] = [
                     'id' => '#',
                     'name' => 'Envio',
                     'sales_price' => $shipping,
                     'amount' => 1,
                 ];
-
+            }
                 $total += $shipping;
 
             $productsJSON = json_encode($productsArray, JSON_PRETTY_PRINT);
