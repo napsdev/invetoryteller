@@ -372,7 +372,6 @@ class InvoicesModel
 
             foreach ($products as $product) {
                 $productinfo = $this->productInstance->get($product['id']);
-                $this->productInstance->updateAmount($product['id'], -abs($product['amount']));
                 if (!empty($productinfo) && is_array($productinfo)) {
                     $productData = $productinfo[0];
                     
