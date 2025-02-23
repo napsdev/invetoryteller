@@ -211,20 +211,20 @@ class InvoicesModel
             $address = 'N/A';
             $document = 'N/A';
             if(empty(trim($name)) || empty(trim($contact))){
-                $message = 'El nombre del cliente o el correo no puede estar vacio.';
+                return $message = 'El nombre del cliente o el correo no puede estar vacio.';
             }else{
                 $customer_id = $this->customersInstance->create($name,$phone,$address,$document,$contact);
                 if (!is_numeric($customer_id)) {
-                    $message = 'Error al crear el cliente.';
+                    return  $message = 'Error al crear el cliente.';
                 }
             }
         } else {
             if(!is_numeric(($customer_id))){
-                $message = 'Debe seleccionar un cliente.';
+                return  $message = 'Debe seleccionar un cliente.';
             }
         }
         if (!is_numeric($paymentmethods_id)) {
-            $message = 'El metodo de pago no puede estar vacio';
+            return  $message = 'El metodo de pago no puede estar vacio';
         }
         if (!empty($products)) {
             $total = 0;
@@ -344,7 +344,7 @@ class InvoicesModel
             $address = 'N/A';
             $document = 'N/A';
             if(empty(trim($name)) || empty(trim($contact))){
-                $message = 'El nombre del cliente o el correo no puede estar vacio.';
+                return $message = 'El nombre del cliente o el correo no puede estar vacio.';
             }else{
                 $customer_exists = $this->customersInstance->getByContact($contact);
                 if (!empty($customer_exists) && is_array($customer_exists)) {
@@ -352,17 +352,17 @@ class InvoicesModel
                 } else {
                 $customer_id = $this->customersInstance->create($name,$phone,$address,$document,$contact);
                 if (!is_numeric($customer_id)) {
-                    $message = 'Error al crear el cliente.';
+                    return $message = 'Error al crear el cliente.';
                 }
             }
             }
         } else {
             if(!is_numeric(($customer_id))){
-                $message = 'Debe seleccionar un cliente.';
+                return $message = 'Debe seleccionar un cliente.';
             }
         }
         if (!is_numeric($paymentmethods_id)) {
-            $message = 'El metodo de pago no puede estar vacio';
+            return $message = 'El metodo de pago no puede estar vacio';
         }
 
         if (!empty($products)) {
