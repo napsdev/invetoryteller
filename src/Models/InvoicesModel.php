@@ -223,7 +223,9 @@ class InvoicesModel
                 $message = 'Debe seleccionar un cliente.';
             }
         }
-
+        if (!is_numeric($paymentmethods_id)) {
+            $message = 'El metodo de pago no puede estar vacio';
+        }
         if (!empty($products)) {
             $total = 0;
             $revenue = 0;
@@ -300,9 +302,7 @@ class InvoicesModel
         } else {
             $message = 'El arreglo de productos está vacío.';
         }
-        if (!is_numeric($paymentmethods_id)) {
-            $message = 'El metodo de pago no puede estar vacio';
-        }
+        
 
         if($pending_call == 1){
             $status = 2; //pending
@@ -360,6 +360,9 @@ class InvoicesModel
             if(!is_numeric(($customer_id))){
                 $message = 'Debe seleccionar un cliente.';
             }
+        }
+        if (!is_numeric($paymentmethods_id)) {
+            $message = 'El metodo de pago no puede estar vacio';
         }
 
         if (!empty($products)) {
@@ -436,9 +439,7 @@ class InvoicesModel
         } else {
             $message = 'El arreglo de productos está vacío.';
         }
-        if (!is_numeric($paymentmethods_id)) {
-            $message = 'El metodo de pago no puede estar vacio';
-        }
+        
         if (!empty($message)){
             return $message;
         }else{
