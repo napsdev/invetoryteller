@@ -25,7 +25,7 @@
                 <input type="number" class="form-control" id="amount" name="amount" value="0" required min="0">
             </div>
             <div class="form-group">
-                <label for="barcod">Cod, Barras</label>
+                <label for="barcod">Cod.Barras</label>
                 <input type="text" class="form-control" id="barcod" name="barcod" value="NA">
             </div>
             <div class="form-group">
