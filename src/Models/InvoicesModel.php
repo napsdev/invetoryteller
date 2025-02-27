@@ -294,7 +294,7 @@ class InvoicesModel
             if($shipping > 0){
                 $productsArray[] = [
                     'id' => '#',
-                    'name' => 'Envio',
+                    'name' => 'Forma de pago',
                     'sales_price' => $shipping,
                     'amount' => 1,
                 ];
@@ -432,7 +432,7 @@ class InvoicesModel
             if($shipping > 0){
                 $productsArray[] = [
                     'id' => '#',
-                    'name' => 'Envio',
+                    'name' => 'Forma de pago',
                     'sales_price' => $shipping,
                     'amount' => 1,
                 ];
