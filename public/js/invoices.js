@@ -162,8 +162,8 @@ function calculateTotalSend() {
 
     if (!selectedOption || !selectedOption.dataset.price) {
         totalSendElement.innerHTML = "Método de pago: $0.00";
-        totalProductsElement.innerHTML = `Productos: $${totalSum.toFixed(2)}`;
-        totalSumElement.innerHTML = `Total: $${totalSum.toFixed(2)}`;
+        totalProductsElement.innerHTML = `Productos: $${totalSum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        totalSumElement.innerHTML = `Total: $${totalSum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         return;
     }
 
