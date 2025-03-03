@@ -15,6 +15,7 @@
     <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex justify-content-center">
         <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
             <h3 class="text-center mb-4">EN ESPERA</h3>
+            <div style="max-height: 300px; overflow-y: auto;">
             <?php if (!empty($table)): ?>
                 <?php foreach ($table as $row): ?>
                     <?php if ($row['pending_call'] == 1): ?>
@@ -43,12 +44,14 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
+            </div>
         </div>
     </div>
 
     <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex justify-content-center">
         <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
             <h3 class="text-center mb-4">AGOTADOS</h3>
+            <div style="max-height: 300px; overflow-y: auto;">
             <?php if (!empty($tableProducts)): ?>
                 <?php foreach ($tableProducts as $row): ?>
                     <?php if ($row['amount'] < $_ENV['QUANTITY_OF_PRODUCTS']): ?>
@@ -61,6 +64,7 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
