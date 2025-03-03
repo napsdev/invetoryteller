@@ -47,7 +47,7 @@ class InvoicesModel
                             )
                         ) AS jt
                     WHERE 
-                        jt.name = 'Envio'
+                        jt.name = 'Forma de pago'
                 ) AS envio ON i.id = envio.id
                 WHERE 
                      DATE(i.date) = :search
@@ -92,7 +92,7 @@ class InvoicesModel
                             )
                         ) AS jt
                     WHERE 
-                        jt.name = 'Envio'
+                        jt.name = 'Forma de pago'
                 ) AS envio ON i.id = envio.id
                 WHERE 
                     YEAR(i.date) = YEAR(CURDATE())
@@ -136,7 +136,7 @@ class InvoicesModel
                             )
                         ) AS jt
                     WHERE 
-                        jt.name = 'Envio'
+                        jt.name = 'Forma de pago'
                 ) AS envio ON i.id = envio.id
                 WHERE 
                     YEAR(i.date) = YEAR(CURDATE())
