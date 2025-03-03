@@ -103,6 +103,7 @@ addProductButton.addEventListener("click", () => {
     updateCartridgeSum();
     updateProductList();
     calculateTotalSend();
+    amountInput.value = 1;
 });
 
 function updateCartridgeSum() {
