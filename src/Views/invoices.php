@@ -136,7 +136,7 @@
         }, 1000);
     });
 </script>
-<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices_1.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices_2.js"></script>
 
 </div>
 </body>
