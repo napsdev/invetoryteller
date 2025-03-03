@@ -131,6 +131,9 @@
         const productsInput = document.getElementById('productsInput');
         productsInput.value = JSON.stringify(products);
         document.getElementById('productForm').submit();
+        setTimeout(function() {
+            location.reload();
+        }, 1000);
     });
 </script>
 <script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices_1.js"></script>
