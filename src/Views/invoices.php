@@ -133,7 +133,7 @@
         document.getElementById('productForm').submit();
     });
 </script>
-<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices_1.js"></script>
 
 </div>
 </body>
