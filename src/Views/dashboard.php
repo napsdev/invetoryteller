@@ -85,6 +85,15 @@
             }
             ?>
             </h3>
+            <p class="text-center mb-4">GANANCIAS ULTIMO DÍA REGISTRADO:
+                <?php
+                if (!empty($lastDayRevenue)) {
+                echo $lastDayRevenue['last_day'].' | '.formatThousands($lastDayRevenue['net_income']);
+                } else {
+                echo "No disponible";
+                }
+                ?>
+            </p>
             <div style="height: 100%;">
                 <canvas id="revenue"></canvas>
             </div>
@@ -105,6 +114,15 @@
             }
             ?>
             </h3>
+            <p class="text-center mb-4">VENTAS ULTIMO DÍA REGISTRADO:
+                <?php
+                if (!empty($lastdaycharts)) {
+                    echo $lastdaycharts['last_day'].' | '.formatThousands($lastdaycharts['total_neto']);
+                } else {
+                    echo "No disponible";
+                }
+                ?>
+            </p>
             <div style="height: 100%;">
                 <canvas id="total"></canvas>
             </div>

@@ -18,6 +18,8 @@ class DashboardController
         $tableProducts = $this->ProductsModel->list();
         $chart = $this->InvoicesModel->charts();
         $chartrevenue = $this->InvoicesModel->chartrevenue();
+        $lastDayRevenue = $this->InvoicesModel->getLastDayRevenue();
+        $lastdaycharts = $this->InvoicesModel->getlastdaycharts();
         require_once __DIR__ . '/../Views/dashboard.php';
     }
 }

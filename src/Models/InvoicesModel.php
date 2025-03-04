@@ -155,6 +155,48 @@ class InvoicesModel
         }
     }
 
+    public function getlastdaycharts() {
+        try {
+            $query = "SELECT 
+                        DATE(date) AS last_day,
+                        SUM(i.total - COALESCE(envio_valor, 0)) AS total_neto
+                        FROM
+                        invoices i
+                        JOIN 
+                        paymentmethods pm ON i.paymentmethods_id = pm.id
+                        LEFT JOIN (
+                        SELECT 
+                        id,
+                        JSON_EXTRACT(products, CONCAT('$[', idx - 1, '].sales_price')) AS envio_valor
+                        FROM 
+                        invoices,
+                        JSON_TABLE(
+                        products,
+                        '$[*]' 
+                        COLUMNS (
+                        idx FOR ORDINALITY,
+                        name VARCHAR(100) PATH '$.name'
+                        )
+                        ) AS jt
+                        WHERE 
+                        jt.name = 'Forma de pago'
+                        ) AS envio ON i.id = envio.id
+                        WHERE 
+                        YEAR(i.date) = YEAR(CURDATE())
+                        AND
+                        i.status = 1
+                        GROUP BY last_day 
+                        ORDER BY last_day DESC 
+                        LIMIT 1";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return null;
+        }
+    }
+
     public function chartrevenue() {
         try {
             $query = "SELECT 
@@ -199,6 +241,26 @@ class InvoicesModel
         } catch (PDOException $e) {
             error_log("Error en la consulta: " . $e->getMessage());
             return "Error en la consulta";
+        }
+    }
+
+    public function getlastdayrevenue() {
+        try {
+            $query = "SELECT 
+                            DATE(date) AS last_day, 
+                            SUM(revenue) AS net_income 
+                        FROM invoices 
+                        WHERE status = 1 
+                        GROUP BY last_day 
+                        ORDER BY last_day DESC 
+                        LIMIT 1";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return null;
         }
     }
 
