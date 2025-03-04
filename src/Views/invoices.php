@@ -4,6 +4,7 @@
 <body class="bg-light">
 <div class="container">
 <?php include 'navbar.php'; ?>
+<div id="alertContainer"></div>
 <form action="<?= $_ENV['BASE_URL_PATH']?>/salidas/create" method="post" id="productForm" target="_blank">
 <div class="container mt-5 mb-1" id="products">
 <div class="row justify-content-center">
@@ -121,19 +122,66 @@
 <script>
     document.getElementById('quoteButton').addEventListener('click', function () {
         document.getElementById('productForm').action = "<?= $_ENV['BASE_URL_PATH']?>/salidas/quote";
+        document.getElementById('productForm').target = "_blank";
         const productsInput = document.getElementById('productsInput');
         productsInput.value = JSON.stringify(products);
         document.getElementById('productForm').submit();
     });
 
+    function showAlert(message, type = "warning") {
+        const alertContainer = document.getElementById("alertContainer");
+        alertContainer.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show mx-auto mt-3" style="max-width: 500px;" role="alert">
+            ${message}
+            <button type="button" class="close" data-dismiss="alert" onclick="this.parentElement.remove()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    `;
+    }
+
     document.getElementById('registerButton').addEventListener('click', function () {
+
         document.getElementById('productForm').action = "<?= $_ENV['BASE_URL_PATH']?>/salidas/create";
+        document.getElementById('productForm').target = "_self";
+        const checkbox = document.getElementById("newCustomer");
+        const nameField = document.getElementById("newCustomername").value.trim();
+        const emailField = document.getElementById("newCustomercontact").value.trim();
+        const customerSelect = document.getElementById("customer_id");
+        const selectedValue = customerSelect.value.trim();
+        const paymentSelect = document.getElementById("paymentmethods_id");
+        const selectedValuePay = paymentSelect.value.trim();
+
+        if (checkbox.checked) {
+            if (nameField === "" || emailField === "") {
+                showAlert("Debe llenar ambos campos (Nombre y Correo) si el checkbox está marcado.", "warning");
+                return false;
+            }
+            if (!validateEmail(emailField)) {
+                showAlert("Ingrese un correo válido.", "warning");
+                return false;
+            }
+        }else if(selectedValue === ""){
+            showAlert("Debe seleccionar un cliente válido.", "warning");
+            return false;
+        }
+        if (selectedValuePay === "") {
+            showAlert("Debe seleccionar un método de pago válido.", "warning");
+            return false;
+        }
+        if (products.length === 0) {
+            showAlert("Debe agregar al menos un producto.", "warning");
+            return false;
+        }
+
+        document.getElementById('productForm').target = "_blank";
         const productsInput = document.getElementById('productsInput');
         productsInput.value = JSON.stringify(products);
         document.getElementById('productForm').submit();
+        location.reload();
     });
 </script>
-<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices_2.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/invoices_3.js"></script>
 
 </div>
 </body>

@@ -1,3 +1,8 @@
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
 //Bar Code
 function searchAndAddProduct(barcodeBuscado) {
     const select = document.getElementById("product_id");
