@@ -16,6 +16,10 @@
                 <label for="amount">Valor</label>
                 <input type="number" class="form-control" id="amount" name="amount" required value="0">
             </div>
+            <div class="form-group">
+                <label for="date">Fecha</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Registrar</button>
         </form>
     </div>
@@ -54,6 +58,10 @@
 <?php endif; ?>
 
 <?php include 'footer.php'; ?>
+<!-- Buttons table -->
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/dataTables.buttons.min.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/jszip.min.js"></script>
+<script src="<?= $_ENV['BASE_URL_PATH'] ?>/public/js/buttons.html5.min.js"></script>
 <script>
     new DataTable('#expenses', {
         order: [],
@@ -61,7 +69,20 @@
         scrollY: "300px",
         language: {
             url: "<?= $_ENV['BASE_URL_PATH']?>/public/js/dataTableEs.json"
-        }
+        },
+        dom: 'Blftip',
+        buttons: [
+            {
+                extend: 'copy',
+                text: 'Copiar',
+                className: 'btn btn-outline-primary'
+            },
+            {
+                extend: 'excel',
+                text: 'Excel',
+                className: 'btn btn-outline-success'
+            }
+        ]
     });
 
     function deleteExpenses(id) {
@@ -71,9 +92,16 @@
     }
 
     function editExpenses(Expense) {
-
         document.getElementById('description').value = Expense.description || '';
         document.getElementById('amount').value = Expense.amount || '';
+
+        if (Expense.date) {
+            let date = new Date(Expense.date);
+            if (!isNaN(date.getTime())) {
+                let formattedDate = date.toISOString().split('T')[0];
+                document.getElementById('date').value = formattedDate;
+            }
+        }
 
         const form = document.querySelector('form[action*="gastos/"]');
         form.action = "<?= $_ENV['BASE_URL_PATH'] ?>/gastos/update";
@@ -92,6 +120,7 @@
         }
         hiddenIdField.value = Expense.id;
     }
+
 </script>
 </div>
 </body>
