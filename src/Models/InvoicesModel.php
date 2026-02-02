@@ -139,7 +139,7 @@ class InvoicesModel
                         jt.name = 'Forma de pago'
                 ) AS envio ON i.id = envio.id
                 WHERE 
-                    YEAR(i.date) = YEAR(CURDATE())
+                    YEAR(i.date) = :year
                 AND
                 i.status = 1
                 GROUP BY 
@@ -147,6 +147,7 @@ class InvoicesModel
                 ORDER BY 
                     mes";
             $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':year', $year);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -155,7 +156,7 @@ class InvoicesModel
         }
     }
 
-    public function getlastdaycharts() {
+    public function getlastdaycharts($year) {
         try {
             $query = "SELECT 
                         DATE(date) AS last_day,
@@ -182,13 +183,14 @@ class InvoicesModel
                         jt.name = 'Forma de pago'
                         ) AS envio ON i.id = envio.id
                         WHERE 
-                        YEAR(i.date) = YEAR(CURDATE())
+                        YEAR(i.date) = :year
                         AND
                         i.status = 1
                         GROUP BY last_day 
                         ORDER BY last_day DESC 
                         LIMIT 1";
             $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':year', $year);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -197,7 +199,7 @@ class InvoicesModel
         }
     }
 
-    public function chartrevenue() {
+    public function chartrevenue($year) {
         try {
             $query = "SELECT 
                         revenue_by_month.month,
@@ -208,12 +210,14 @@ class InvoicesModel
                         SUM(revenue) AS total_revenue
                         FROM invoices
                         WHERE invoices.status = 1 
+                        AND YEAR(date) = :year
                         GROUP BY month) AS revenue_by_month
                         LEFT JOIN 
                         (SELECT 
                         DATE_FORMAT(date, '%Y-%m') AS month,
                         SUM(amount) AS total_expenses
                         FROM expenses
+                        WHERE YEAR(date) = :year
                         GROUP BY month) AS expenses_by_month
                         ON revenue_by_month.month = expenses_by_month.month
                         UNION
@@ -226,16 +230,19 @@ class InvoicesModel
                         SUM(revenue) AS total_revenue
                         FROM invoices
                         WHERE invoices.status = 1 
+                        AND YEAR(date) = :year
                         GROUP BY month) AS revenue_by_month
                         RIGHT JOIN 
                         (SELECT 
                         DATE_FORMAT(date, '%Y-%m') AS month,
                         SUM(amount) AS total_expenses
                         FROM expenses
+                        WHERE YEAR(date) = :year
                         GROUP BY month) AS expenses_by_month
                         ON revenue_by_month.month = expenses_by_month.month;
                         ";
             $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':year', $year);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -244,18 +251,20 @@ class InvoicesModel
         }
     }
 
-    public function getlastdayrevenue() {
+    public function getlastdayrevenue($year) {
         try {
             $query = "SELECT 
                             DATE(date) AS last_day, 
                             SUM(revenue) AS net_income 
                         FROM invoices 
                         WHERE status = 1 
+                        AND YEAR(date) = :year
                         GROUP BY last_day 
                         ORDER BY last_day DESC 
                         LIMIT 1";
 
             $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':year', $year);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -280,10 +289,10 @@ class InvoicesModel
                     $customer_id = $customer_exists[0]['id'];
                 } else {
                 $customer_id = $this->customersInstance->create($name,$phone,$address,$document,$contact);
-                if (!is_numeric($customer_id)) {
-                    return $message = 'Error al crear el cliente.';
+                    if (!is_numeric($customer_id)) {
+                        return $message = 'Error al crear el cliente.';
+                    }
                 }
-            }
             }
         } else {
             if(!is_numeric(($customer_id))){
@@ -302,7 +311,7 @@ class InvoicesModel
             $countcartridge = 0;
             foreach ($products as $product) {
                 if ($product['cartridge'] == 1) {
-                    $countcartridge += $product['amount']; 
+                    $countcartridge += $product['amount'];
                 }
             }
 
@@ -311,7 +320,7 @@ class InvoicesModel
                 $this->productInstance->updateAmount($product['id'], -abs($product['amount']));
                 if (!empty($productinfo) && is_array($productinfo)) {
                     $productData = $productinfo[0];
-                    
+
                     if($countcartridge >= 10 && $productData['cartridge'] == 1){
                         $total += $productData['cartridgevalue'] * $product['amount'];
                         $revenue += ($productData['cartridgevalue'] - $productData['purchase_price'])* $product['amount'];
@@ -324,13 +333,13 @@ class InvoicesModel
                         ];
                     }else{   
                         $total += $productData['sales_price'] * $product['amount'];
-                        $revenue += $productData['revenue'] * $product['amount'];  
+                        $revenue += $productData['revenue'] * $product['amount'];
                         $productsArray[] = [
                             'id' => $productData['id'],
                             'name' => $productData['name'],
                             'sales_price' => $productData['sales_price'],
                             'amount' => $product['amount'],
-                        ];  
+                        ];
                     }
                 }
             }
@@ -343,7 +352,7 @@ class InvoicesModel
                     $shipping = ($total*($paymentmethodData['percentage']/100))+$paymentmethodData['value_added'];
                 }
             }
-            
+
             if($discount < 0){
                 $productsArray[] = [
                     'id' => '#',
@@ -361,7 +370,7 @@ class InvoicesModel
                     'amount' => 1,
                 ];
             }
-                $total += $shipping;
+            $total += $shipping;
 
             $productsJSON = json_encode($productsArray, JSON_PRETTY_PRINT);
 
@@ -369,7 +378,7 @@ class InvoicesModel
         } else {
             $message = 'El arreglo de productos está vacío.';
         }
-        
+
 
         if($pending_call == 1){
             $status = 2; //pending
@@ -418,10 +427,10 @@ class InvoicesModel
                     $customer_id = $customer_exists[0]['id'];
                 } else {
                 $customer_id = $this->customersInstance->create($name,$phone,$address,$document,$contact);
-                if (!is_numeric($customer_id)) {
-                    return $message = 'Error al crear el cliente.';
+                    if (!is_numeric($customer_id)) {
+                        return $message = 'Error al crear el cliente.';
+                    }
                 }
-            }
             }
         } else {
             if(!is_numeric(($customer_id))){
@@ -441,7 +450,7 @@ class InvoicesModel
             $countcartridge = 0;
             foreach ($products as $product) {
                 if ($product['cartridge'] == 1) {
-                    $countcartridge += $product['amount']; 
+                    $countcartridge += $product['amount'];
                 }
             }
 
@@ -449,7 +458,7 @@ class InvoicesModel
                 $productinfo = $this->productInstance->get($product['id']);
                 if (!empty($productinfo) && is_array($productinfo)) {
                     $productData = $productinfo[0];
-                    
+
                     if($countcartridge >= 10 && $productData['cartridge'] == 1){
                         $total += $productData['cartridgevalue'] * $product['amount'];
                         $revenue += ($productData['cartridgevalue'] - $productData['purchase_price'])* $product['amount'];
@@ -462,13 +471,13 @@ class InvoicesModel
                         ];
                     }else{   
                         $total += $productData['sales_price'] * $product['amount'];
-                        $revenue += $productData['revenue'] * $product['amount'];  
+                        $revenue += $productData['revenue'] * $product['amount'];
                         $productsArray[] = [
                             'id' => $productData['id'],
                             'name' => $productData['name'],
                             'sales_price' => $productData['sales_price'],
                             'amount' => $product['amount'],
-                        ];  
+                        ];
                     }
                 }
             }
@@ -481,7 +490,7 @@ class InvoicesModel
                     $shipping = ($total*($paymentmethodData['percentage']/100))+$paymentmethodData['value_added'];
                 }
             }
-            
+
             if($discount < 0){
                 $productsArray[] = [
                     'id' => '#',
@@ -499,14 +508,14 @@ class InvoicesModel
                     'amount' => 1,
                 ];
             }
-            
+
 
             $total += $shipping;
             $productsJSON = json_encode($productsArray, JSON_PRETTY_PRINT);
         } else {
             $message = 'El arreglo de productos está vacío.';
         }
-        
+
         if (!empty($message)){
             return $message;
         }else{
@@ -544,11 +553,14 @@ class InvoicesModel
     }
 
 
-    public function list() {
+    public function list($year) {
         try {
             $query = "SELECT invoices.id, customers.name as customername, invoices.products, invoices.total, invoices.revenue, invoices.date, invoices.pending_call, paymentmethods.name as paymentmethodname, invoices.trackingcode, invoices.status 
-                      FROM invoices inner join customers on customers.id = invoices.customer_id  inner join paymentmethods on paymentmethods.id = invoices.paymentmethods_id order by invoices.id desc";
+                      FROM invoices inner join customers on customers.id = invoices.customer_id  inner join paymentmethods on paymentmethods.id = invoices.paymentmethods_id
+                      WHERE YEAR(invoices.date) = :year
+                       order by invoices.id desc";
             $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':year', $year);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {

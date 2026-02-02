@@ -6,7 +6,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>salidas">SALIDAS</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>repsalidas">REPORTES</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    REPORTES
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="<?= $_ENV['BASE_URL_PATH'] ?>/repsalidas?year=2025">2025</a>
+                    <a class="dropdown-item" href="<?= $_ENV['BASE_URL_PATH'] ?>/repsalidas?year=2026">2026</a>
+                </div>
+            </li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>pagos">F.PAGO</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>productos">PRODUCTOS</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>entradas">ENTRADAS</a></li>
