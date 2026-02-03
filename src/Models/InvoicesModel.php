@@ -111,7 +111,7 @@ class InvoicesModel
         }
     }
 
-    public function charts() {
+    public function charts($year) {
         try {
             $query = "SELECT 
                 DATE_FORMAT(i.date, '%Y-%m') AS mes,
