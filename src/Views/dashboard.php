@@ -7,7 +7,7 @@
     
 <div class="row">
     <div class="col-12">
-        <h1 class="text-center">INFORMACIÓN DEL NEGOCIO</h1>
+        <h1 class="text-center">INFORMACIÓN DEL NEGOCIO <?= $_GET['year'] ?? date('Y') ?></h1>
     </div>
 </div>
 
