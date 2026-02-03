@@ -14,6 +14,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?= $_ENV['BASE_URL_PATH'] ?>/repsalidas?year=2025">2025</a>
                     <a class="dropdown-item" href="<?= $_ENV['BASE_URL_PATH'] ?>/repsalidas?year=2026">2026</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="<?= $_ENV['BASE_URL_PATH'] ?>/ventas-producto">Ventas por Producto</a>
                 </div>
             </li>
             <li class="nav-item"><a class="nav-link" href="<?= $_ENV['BASE_URL_PATH'].'/'?>pagos">F.PAGO</a></li>

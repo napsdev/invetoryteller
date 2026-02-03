@@ -582,4 +582,83 @@ class InvoicesModel
             return "Error en la consulta";
         }
     }
+
+    public function getSalesByProduct($startDate, $endDate) {
+        try {
+            $query = "SELECT products FROM invoices WHERE status = 1 AND DATE(date) BETWEEN :start_date AND :end_date";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':start_date', $startDate);
+            $stmt->bindParam(':end_date', $endDate);
+            $stmt->execute();
+            $invoices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $salesStats = [];
+
+            foreach ($invoices as $invoice) {
+                $products = json_decode($invoice['products'], true);
+                if (is_array($products)) {
+                    foreach ($products as $product) {
+                        // Skip non-product line items if any (checks for ID '#')
+                        if ($product['id'] === '#') continue;
+                        
+                        $productId = $product['id'];
+                        $amount = intval($product['amount']);
+                        $price = floatval($product['sales_price']);
+
+                        if (!isset($salesStats[$productId])) {
+                            $salesStats[$productId] = [
+                                'sold_amount' => 0,
+                                'total_sales' => 0
+                            ];
+                        }
+                        $salesStats[$productId]['sold_amount'] += $amount;
+                        $salesStats[$productId]['total_sales'] += ($amount * $price);
+                    }
+                }
+            }
+
+            $finalReport = [];
+            
+            if (!empty($salesStats)) {
+                $productIds = array_keys($salesStats);
+                $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+                
+                $queryProducts = "SELECT id, name, amount as current_stock FROM products WHERE id IN ($placeholders)";
+                $stmtProducts = $this->db->prepare($queryProducts);
+                $stmtProducts->execute($productIds);
+                $productDetails = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+                
+                $productMap = [];
+                foreach ($productDetails as $pd) {
+                    $productMap[$pd['id']] = $pd;
+                }
+
+                foreach ($salesStats as $pid => $stats) {
+                    if (isset($productMap[$pid])) {
+                        $finalReport[] = [
+                            'id' => $pid,
+                            'name' => $productMap[$pid]['name'],
+                            'sold_amount' => $stats['sold_amount'],
+                            'total_sales' => $stats['total_sales'],
+                            'current_stock' => $productMap[$pid]['current_stock']
+                        ];
+                    } else {
+                        $finalReport[] = [
+                            'id' => $pid,
+                            'name' => "Producto Eliminado (ID: $pid)",
+                            'sold_amount' => $stats['sold_amount'],
+                            'total_sales' => $stats['total_sales'],
+                            'current_stock' => 0
+                        ];
+                    }
+                }
+            }
+            
+            return $finalReport;
+
+        } catch (PDOException $e) {
+            error_log("Error en getSalesByProduct: " . $e->getMessage());
+            return [];
+        }
+    }
 }

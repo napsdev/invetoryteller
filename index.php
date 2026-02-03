@@ -4,6 +4,7 @@ use Dotenv\Dotenv;
 use App\Router;
 use App\Controllers\LoginController;
 use App\Controllers\DashboardController;
+use App\Controllers\SalesByProductReportController;
 use App\Controllers\InvoicesController;
 use App\Controllers\PaymentMethodsController;
 use App\Controllers\ProductsController;
@@ -99,6 +100,13 @@ $router->addRoute('POST', '/salidas/aprobar', function () {
 $router->addRoute('GET', '/repsalidas', function () {
     checkAuth();
     $controller = new DashboardController();
+    $controller->index();
+});
+
+//REPORTS
+$router->addRoute('GET', '/ventas-producto', function () {
+    checkAuth();
+    $controller = new SalesByProductReportController();
     $controller->index();
 });
 //MAIN END
