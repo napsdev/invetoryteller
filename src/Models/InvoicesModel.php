@@ -67,7 +67,7 @@ class InvoicesModel
         }
     }
 
-    public function table() {
+    public function table($year) {
         try {
             $query = "SELECT 
                 DATE_FORMAT(i.date, '%Y-%m') AS mes,
@@ -95,7 +95,7 @@ class InvoicesModel
                         jt.name = 'Forma de pago'
                 ) AS envio ON i.id = envio.id
                 WHERE 
-                    YEAR(i.date) = YEAR(CURDATE())
+                    YEAR(i.date) = :year
                 AND
                 i.status = 1
                 GROUP BY 
@@ -103,6 +103,7 @@ class InvoicesModel
                 ORDER BY 
                     mes, forma_pago";
             $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':year', $year);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {

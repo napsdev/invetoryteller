@@ -32,7 +32,8 @@ class InvoicesController
         $search = $_POST['search'];
         $tablesearch = $this->InvoicesModel->search($search);
     } else {
-        $table = $this->InvoicesModel->table();
+        $year = $_GET['year'] ?? date('Y');
+        $table = $this->InvoicesModel->table($year);
     }
 
     require_once __DIR__ . '/../Views/table.php';

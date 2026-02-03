@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <div class="row mb-3 mt-3">
     <div class="col-12">
-        <form action="<?= $_ENV['BASE_URL_PATH']?>/table" method="get" target="_blank">
+        <form action="<?= $_ENV['BASE_URL_PATH']?>/table?year=<?= $_GET['year'] ?>" method="post" target="_blank">
             <div class="form-group">
                 <button type="submit" class="btn btn-primary mt-3">UBICACIÓN DEL DINERO</button>
             </div>
